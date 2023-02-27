@@ -1,18 +1,15 @@
 package com.mik0war.complimentsApp
 
-class ViewModel(private val model: Model) {
-    private var callBack : TextProvider? = null
+import androidx.annotation.DrawableRes
 
-    fun init(callBack : TextProvider){
+class ViewModel(private val model: Model) {
+    private var callBack : DataProvider? = null
+
+    fun init(callBack : DataProvider){
         this.callBack = callBack
 
         model.init(object : ResultCallBack{
-            override fun provideSuccess(data: Compliment) =
-                callBack.provideText(data.getComplimentUI())
-
-            override fun provideError(error: JokeError) =
-                callBack.provideText(error.getErrorMessage())
-
+            override fun provideCompliment(compliment: Compliment) = compliment.map(callBack)
         })
 
     }
@@ -26,6 +23,8 @@ class ViewModel(private val model: Model) {
     }
 }
 
-interface TextProvider{
+interface DataProvider{
     fun provideText(text: String)
+
+    fun provideIconId(@DrawableRes id : Int)
 }

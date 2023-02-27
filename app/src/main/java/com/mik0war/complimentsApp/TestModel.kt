@@ -1,6 +1,6 @@
 package com.mik0war.complimentsApp
 
-class TestModel(private val resourceManager: ResourceManager) : Model {
+class TestModel() : Model {
     private var count = 1
     private var callBack : ResultCallBack? = null
 
@@ -8,9 +8,9 @@ class TestModel(private val resourceManager: ResourceManager) : Model {
         Thread{
             Thread.sleep(5000)
             when {
-                count % 3 == 0 -> callBack?.provideSuccess(Compliment("complimentBody"))
-                count % 3 == 1 -> callBack?.provideError(NoConnection(resourceManager))
-                else -> callBack?.provideError(ServiceUnavailable(resourceManager))
+                count % 3 == 0 -> callBack?.provideCompliment(BaseCompliment("base compliment"))
+                count % 3 == 1 -> callBack?.provideCompliment(FavoriteCompliment("favorite compliment"))
+                else -> callBack?.provideCompliment(FailedCompliment("failed compliment"))
             }
             count++
         }.start()

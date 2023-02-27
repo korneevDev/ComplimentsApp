@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 
@@ -15,27 +17,42 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         viewmodel = (application as ComplimentsApp).viewModel
 
+        val checkBox = findViewById<CheckBox>(R.id.checkbox)
+
         val processBar = findViewById<ProgressBar>(R.id.progress_bar)
         processBar.visibility = View.INVISIBLE
 
         val textView = findViewById<TextView>(R.id.compliment_view)
         val getButton = findViewById<Button>(R.id.get_button)
+        val favoriteIcon = findViewById<ImageView>(R.id.favorite_icon)
+        val line = findViewById<View>(R.id.line)
 
         getButton.setOnClickListener {
             getButton.isEnabled = false
             getButton.visibility = View.INVISIBLE
             textView.visibility = View.INVISIBLE
+            checkBox.visibility = View.INVISIBLE
+            line.visibility = View.INVISIBLE
+            favoriteIcon.visibility = View.INVISIBLE
+
             processBar.visibility = View.VISIBLE
             viewmodel.getJoke()
         }
 
-        viewmodel.init(object : TextProvider{
+        viewmodel.init(object : DataProvider{
             override fun provideText(text: String) = runOnUiThread{
                 processBar.visibility = View.INVISIBLE
-                getButton.visibility = View.VISIBLE
                 textView.text = text
+                getButton.visibility = View.VISIBLE
                 textView.visibility = View.VISIBLE
+                checkBox.visibility = View.VISIBLE
+                line.visibility = View.VISIBLE
+                favoriteIcon.visibility = View.VISIBLE
                 getButton.isEnabled = true
+            }
+
+            override fun provideIconId(id: Int) = runOnUiThread {
+                favoriteIcon.setImageResource(id)
             }
         })
     }

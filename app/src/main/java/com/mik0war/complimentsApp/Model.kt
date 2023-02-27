@@ -10,6 +10,5 @@ interface Model {
 }
 
 interface ResultCallBack{
-    fun provideSuccess(data: Compliment)
-    fun provideError(error: JokeError)
+    fun provideCompliment(compliment : Compliment)
 }

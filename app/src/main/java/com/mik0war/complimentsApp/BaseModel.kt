@@ -16,16 +16,16 @@ class BaseModel(
         complimentService.getCompliment().enqueue(object : retrofit2.Callback<ComplimentDTO>{
             override fun onResponse(call: Call<ComplimentDTO>, response: Response<ComplimentDTO>) {
                 if(response.isSuccessful)
-                    resultCallBack?.provideSuccess(response.body()!!.toCompliment())
+                    resultCallBack?.provideCompliment(response.body()!!.toCompliment())
                 else
-                    resultCallBack?.provideError(serviceUnavailable)
+                    resultCallBack?.provideCompliment(FailedCompliment(serviceUnavailable.getErrorMessage()))
             }
 
             override fun onFailure(call: Call<ComplimentDTO>, t: Throwable) {
                 if(t is UnknownHostException)
-                    resultCallBack?.provideError(noConnection)
+                    resultCallBack?.provideCompliment(FailedCompliment(noConnection.getErrorMessage()))
                 else
-                    resultCallBack?.provideError(serviceUnavailable)
+                    resultCallBack?.provideCompliment(FailedCompliment(serviceUnavailable.getErrorMessage()))
             }
 
 

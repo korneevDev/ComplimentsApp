@@ -6,5 +6,5 @@ data class ComplimentDTO (
     @SerializedName("compliment")
     private val compliment : String
     ){
-    fun toCompliment() = Compliment(compliment)
+    fun toCompliment() = BaseCompliment(compliment)
 }

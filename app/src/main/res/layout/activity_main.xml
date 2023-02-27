@@ -11,12 +11,14 @@
     <CheckBox
         android:id="@+id/checkbox"
         android:layout_width="match_parent"
+        android:maxWidth="320dp"
         android:layout_height="wrap_content"
         android:text="@string/show_favorite_compliment"
         android:textSize="20sp"
         android:padding="@dimen/padding_16dp"/>
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/purple_700" />
