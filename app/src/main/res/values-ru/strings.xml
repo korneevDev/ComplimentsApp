@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Комплименты</string>
+    <string name="get_button">Новый комплимент</string>
+    <string name="service_unavailable">Сервис недоступен</string>
+    <string name="no_connection">Нет подключения к интернету</string>
+</resources>
