@@ -4,4 +4,6 @@
     <string name="get_button">Новый комплимент</string>
     <string name="service_unavailable">Сервис недоступен</string>
     <string name="no_connection">Нет подключения к интернету</string>
+    <string name="show_favorite_compliment">Показать избранный комплимент</string>
+    <string name="favorite_icon">Иконка избранное</string>
 </resources>
