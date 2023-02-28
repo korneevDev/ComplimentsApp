@@ -12,4 +12,9 @@ data class ComplimentServerModel (
     fun toBaseCompliment() = BaseCompliment(compliment)
 
     fun toFavoriteCompliment() = FavoriteCompliment(compliment)
+
+    fun toRealmModel() = ComplimentRealm().also {
+        it.id=compliment
+        it.text=compliment
+    }
 }
