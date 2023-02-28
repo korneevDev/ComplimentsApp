@@ -5,17 +5,31 @@ import androidx.annotation.DrawableRes
 class ViewModel(private val model: Model) {
     private var callBack : DataProvider? = null
 
+    private val complimentCallBack = object : ComplimentCallBack {
+            override fun provideCompliment(compliment: Compliment) {
+                callBack?.let {
+                    compliment.map(it)
+                }
+            }
+    }
+
     fun init(callBack : DataProvider){
         this.callBack = callBack
 
-        model.init(object : ResultCallBack{
-            override fun provideCompliment(compliment: Compliment) = compliment.map(callBack)
-        })
+        model.init(complimentCallBack)
 
     }
 
     fun getJoke(){
         model.getCompliment()
+    }
+
+    fun changeComplimentStatus(){
+        model.changeComplimentStatus(complimentCallBack)
+    }
+
+    fun changeDataSource(isCached : Boolean){
+        model.chooseDataSource(isCached)
     }
 
     fun clear(){

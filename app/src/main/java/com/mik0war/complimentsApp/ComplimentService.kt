@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface ComplimentService {
     @GET("https://complimentr.com/api")
-    fun getCompliment() : Call<ComplimentDTO>
+    fun getCompliment() : Call<ComplimentServerModel>
 }

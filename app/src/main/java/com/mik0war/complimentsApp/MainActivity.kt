@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 
@@ -18,14 +18,21 @@ class MainActivity : AppCompatActivity() {
         viewmodel = (application as ComplimentsApp).viewModel
 
         val checkBox = findViewById<CheckBox>(R.id.checkbox)
+        checkBox.setOnCheckedChangeListener{_, isChecked ->
+            viewmodel.changeDataSource(isChecked)
+        }
 
         val processBar = findViewById<ProgressBar>(R.id.progress_bar)
         processBar.visibility = View.INVISIBLE
 
+        val line = findViewById<View>(R.id.line)
         val textView = findViewById<TextView>(R.id.compliment_view)
         val getButton = findViewById<Button>(R.id.get_button)
-        val favoriteIcon = findViewById<ImageView>(R.id.favorite_icon)
-        val line = findViewById<View>(R.id.line)
+        val favoriteIcon = findViewById<ImageButton>(R.id.favorite_icon)
+        favoriteIcon.setOnClickListener{
+            viewmodel.changeComplimentStatus()
+        }
+
 
         getButton.setOnClickListener {
             getButton.isEnabled = false

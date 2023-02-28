@@ -6,4 +6,5 @@
     <string name="no_connection">Нет подключения к интернету</string>
     <string name="show_favorite_compliment">Показать избранный комплимент</string>
     <string name="favorite_icon">Иконка избранное</string>
+    <string name="no_favorite_compliments">"Нет избранных комплиментов!\\nДобавьте новую, нажав на иконку сердечка "</string>
 </resources>

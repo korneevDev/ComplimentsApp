@@ -1,42 +1,70 @@
 package com.mik0war.complimentsApp
 
-import retrofit2.Call
-import retrofit2.Response
-import java.net.UnknownHostException
-
 class BaseModel(
-    private val complimentService: ComplimentService,
+    private val cloudDataSource: CloudDataSource,
+    private val cacheDataSource: CacheDataSource,
     private val resourceManager: ResourceManager
     ) : Model {
-    private var resultCallBack : ResultCallBack? = null
+    private var complimentCallBack : ComplimentCallBack? = null
     private val noConnection by lazy { NoConnection(resourceManager) }
     private val serviceUnavailable by lazy {ServiceUnavailable(resourceManager)}
+    private val noFavoriteCompliments by lazy {NoFavoriteCompliments(resourceManager)}
+
+    private var cachedComplimentServerModel : ComplimentServerModel? = null
+
+    private var isGetFromCache = false
 
     override fun getCompliment() {
-        complimentService.getCompliment().enqueue(object : retrofit2.Callback<ComplimentDTO>{
-            override fun onResponse(call: Call<ComplimentDTO>, response: Response<ComplimentDTO>) {
-                if(response.isSuccessful)
-                    resultCallBack?.provideCompliment(response.body()!!.toCompliment())
-                else
-                    resultCallBack?.provideCompliment(FailedCompliment(serviceUnavailable.getErrorMessage()))
-            }
+        if(isGetFromCache){
+            cacheDataSource.getCompliment(object : ComplimentCacheCallBack{
+                override fun provide(compliment: ComplimentServerModel) {
+                    cachedComplimentServerModel = compliment
+                    complimentCallBack?.provideCompliment(compliment.toFavoriteCompliment())
+                }
 
-            override fun onFailure(call: Call<ComplimentDTO>, t: Throwable) {
-                if(t is UnknownHostException)
-                    resultCallBack?.provideCompliment(FailedCompliment(noConnection.getErrorMessage()))
-                else
-                    resultCallBack?.provideCompliment(FailedCompliment(serviceUnavailable.getErrorMessage()))
-            }
+                override fun fail() {
+                    cachedComplimentServerModel = null
+                    complimentCallBack?.provideCompliment(
+                        FailedCompliment(noFavoriteCompliments.getErrorMessage())
+                    )
+                }
 
+            })
 
-        })
+        } else{
+            cloudDataSource.getCompliment(object : ComplimentCloudCallBack{
+                override fun provide(compliment: ComplimentServerModel) {
+                    cachedComplimentServerModel = compliment
+                    complimentCallBack?.provideCompliment(compliment.toBaseCompliment())
+                }
+
+                override fun fail(error: ErrorType) {
+                    cachedComplimentServerModel = null
+                    complimentCallBack?.provideCompliment(FailedCompliment(
+                        if (error == ErrorType.SERVICE_UNAVAILABLE)
+                            serviceUnavailable.getErrorMessage()
+                        else
+                            noConnection.getErrorMessage()))
+                }
+            })
+        }
     }
 
-    override fun init(callBack: ResultCallBack) {
-        this.resultCallBack = callBack
+    override fun init(callBack: ComplimentCallBack) {
+        this.complimentCallBack = callBack
+    }
+
+    override fun changeComplimentStatus(callBack: ComplimentCallBack) {
+        cachedComplimentServerModel?.change(cacheDataSource)?.let {
+            callBack.provideCompliment(it)
+        }
+    }
+
+    override fun chooseDataSource(isCache: Boolean) {
+        isGetFromCache = isCache
     }
 
     override fun clear() {
-        this.resultCallBack = null
+        this.complimentCallBack = null
     }
 }

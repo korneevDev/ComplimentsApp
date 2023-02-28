@@ -2,7 +2,7 @@ package com.mik0war.complimentsApp
 
 class TestModel() : Model {
     private var count = 1
-    private var callBack : ResultCallBack? = null
+    private var callBack : ComplimentCallBack? = null
 
     override fun getCompliment() {
         Thread{
@@ -20,8 +20,16 @@ class TestModel() : Model {
         this.callBack = null
     }
 
-    override fun init(callBack: ResultCallBack) {
+    override fun init(callBack: ComplimentCallBack) {
         this.callBack = callBack
+    }
+
+    override fun changeComplimentStatus(callBack: ComplimentCallBack) {
+        TODO("Not yet implemented")
+    }
+
+    override fun chooseDataSource(isCache: Boolean) {
+        TODO("Not yet implemented")
     }
 
 }

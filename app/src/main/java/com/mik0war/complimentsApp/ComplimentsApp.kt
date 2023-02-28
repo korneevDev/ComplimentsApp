@@ -14,14 +14,13 @@ class ComplimentsApp : Application() {
             .baseUrl("https://www.google.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-//        viewModel = ViewModel(
-//                BaseModel(
-//                    retrofit.create(ComplimentService::class.java),
-//                    BaseResourceManager(this)
-//                )
 
         viewModel = ViewModel(
-            TestModel()
+            BaseModel(
+                cacheDataSource=TestCacheDataSource(),
+                cloudDataSource=BaseCloudDataSource(
+                    retrofit.create(ComplimentService::class.java)),
+                resourceManager = BaseResourceManager(this))
         )
     }
 }
