@@ -1,7 +1,7 @@
 package com.mik0war.complimentsApp
 
 interface ComplimentCloudCallBack {
-    fun provide(compliment: ComplimentServerModel)
+    fun provide(compliment: Compliment)
 
     fun fail(error : ErrorType)
 }

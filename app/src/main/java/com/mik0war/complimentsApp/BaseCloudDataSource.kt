@@ -12,16 +12,18 @@ class BaseCloudDataSource(private val service: ComplimentService) : CloudDataSou
                 response: Response<ComplimentServerModel>
             ) {
                 if(response.isSuccessful)
-                    callBack.provide(response.body()!!)
+                    callBack.provide(response.body()!!.toCompliment())
                 else
                     callBack.fail(ErrorType.SERVICE_UNAVAILABLE)
             }
 
             override fun onFailure(call: Call<ComplimentServerModel>, t: Throwable) {
-                if(t is UnknownHostException)
-                    callBack.fail(ErrorType.NO_CONNECTION)
+                val errorType = if(t is UnknownHostException)
+                    ErrorType.NO_CONNECTION
                 else
-                    callBack.fail(ErrorType.SERVICE_UNAVAILABLE)
+                    ErrorType.SERVICE_UNAVAILABLE
+
+                callBack.fail(errorType)
             }
 
         })

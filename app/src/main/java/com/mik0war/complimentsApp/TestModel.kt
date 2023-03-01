@@ -8,9 +8,9 @@ class TestModel() : Model {
         Thread{
             Thread.sleep(5000)
             when {
-                count % 3 == 0 -> callBack?.provideCompliment(BaseCompliment("base compliment"))
-                count % 3 == 1 -> callBack?.provideCompliment(FavoriteCompliment("favorite compliment"))
-                else -> callBack?.provideCompliment(FailedCompliment("failed compliment"))
+                count % 3 == 0 -> callBack?.provideCompliment(BaseComplimentUIModel("base compliment"))
+                count % 3 == 1 -> callBack?.provideCompliment(FavoriteComplimentUIModel("favorite compliment"))
+                else -> callBack?.provideCompliment(FailedComplimentUIModel("failed compliment"))
             }
             count++
         }.start()

@@ -9,11 +9,11 @@ class BaseCacheDataSource(private val realm: Realm) : CacheDataSource {
             if(compliments.isEmpty())
                 complimentCallBack.fail()
             else
-                complimentCallBack.provide(ComplimentServerModel(compliment= compliments.random().text))
+                complimentCallBack.provide(Compliment(compliment= compliments.random().text))
         }
     }
 
-    override fun addOrRemove(id: String, compliment: ComplimentServerModel): Compliment {
+    override fun addOrRemove(id: String, compliment: Compliment): ComplimentUIModel {
         realm.let {
             val curCompliment = realm.where(ComplimentRealm::class.java).equalTo("id", id).findFirst()
 

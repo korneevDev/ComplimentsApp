@@ -2,9 +2,9 @@ package com.mik0war.complimentsApp
 
 
 class TestCacheDataSource : CacheDataSource {
-    private val map = HashMap<String, ComplimentServerModel>()
+    private val map = HashMap<String, Compliment>()
 
-    override fun addOrRemove(id : String, compliment: ComplimentServerModel): Compliment {
+    override fun addOrRemove(id : String, compliment: Compliment): ComplimentUIModel {
         return if(map.containsKey(id)){
             map.remove(id)
             compliment.toBaseCompliment()

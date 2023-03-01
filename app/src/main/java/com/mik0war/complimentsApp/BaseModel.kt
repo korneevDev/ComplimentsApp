@@ -10,22 +10,22 @@ class BaseModel(
     private val serviceUnavailable by lazy {ServiceUnavailable(resourceManager)}
     private val noFavoriteCompliments by lazy {NoFavoriteCompliments(resourceManager)}
 
-    private var cachedComplimentServerModel : ComplimentServerModel? = null
+    private var cachedCompliment : Compliment? = null
 
     private var isGetFromCache = false
 
     override fun getCompliment() {
         if(isGetFromCache){
             cacheDataSource.getCompliment(object : ComplimentCacheCallBack{
-                override fun provide(compliment: ComplimentServerModel) {
-                    cachedComplimentServerModel = compliment
+                override fun provide(compliment: Compliment) {
+                    cachedCompliment = compliment
                     complimentCallBack?.provideCompliment(compliment.toFavoriteCompliment())
                 }
 
                 override fun fail() {
-                    cachedComplimentServerModel = null
+                    cachedCompliment = null
                     complimentCallBack?.provideCompliment(
-                        FailedCompliment(noFavoriteCompliments.getErrorMessage())
+                        FailedComplimentUIModel(noFavoriteCompliments.getErrorMessage())
                     )
                 }
 
@@ -33,14 +33,14 @@ class BaseModel(
 
         } else{
             cloudDataSource.getCompliment(object : ComplimentCloudCallBack{
-                override fun provide(compliment: ComplimentServerModel) {
-                    cachedComplimentServerModel = compliment
+                override fun provide(compliment: Compliment) {
+                    cachedCompliment = compliment
                     complimentCallBack?.provideCompliment(compliment.toBaseCompliment())
                 }
 
                 override fun fail(error: ErrorType) {
-                    cachedComplimentServerModel = null
-                    complimentCallBack?.provideCompliment(FailedCompliment(
+                    cachedCompliment = null
+                    complimentCallBack?.provideCompliment(FailedComplimentUIModel(
                         if (error == ErrorType.SERVICE_UNAVAILABLE)
                             serviceUnavailable.getErrorMessage()
                         else
@@ -55,7 +55,7 @@ class BaseModel(
     }
 
     override fun changeComplimentStatus(callBack: ComplimentCallBack) {
-        cachedComplimentServerModel?.change(cacheDataSource)?.let {
+        cachedCompliment?.change(cacheDataSource)?.let {
             callBack.provideCompliment(it)
         }
     }

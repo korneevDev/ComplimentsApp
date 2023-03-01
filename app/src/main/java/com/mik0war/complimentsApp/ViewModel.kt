@@ -6,7 +6,7 @@ class ViewModel(private val model: Model) {
     private var callBack : DataProvider? = null
 
     private val complimentCallBack = object : ComplimentCallBack {
-            override fun provideCompliment(compliment: Compliment) {
+            override fun provideCompliment(compliment: ComplimentUIModel) {
                 callBack?.let {
                     compliment.map(it)
                 }

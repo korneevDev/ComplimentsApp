@@ -14,5 +14,5 @@ interface Model {
 }
 
 interface ComplimentCallBack{
-    fun provideCompliment(compliment : Compliment)
+    fun provideCompliment(compliment : ComplimentUIModel)
 }

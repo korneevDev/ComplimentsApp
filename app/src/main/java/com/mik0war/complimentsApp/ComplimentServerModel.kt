@@ -6,15 +6,6 @@ data class ComplimentServerModel (
     @SerializedName("compliment")
     private val compliment : String
     ){
+    fun toCompliment() = Compliment(compliment)
 
-    fun change(cacheDataSource: CacheDataSource) = cacheDataSource.addOrRemove(compliment, this)
-
-    fun toBaseCompliment() = BaseCompliment(compliment)
-
-    fun toFavoriteCompliment() = FavoriteCompliment(compliment)
-
-    fun toRealmModel() = ComplimentRealm().also {
-        it.id=compliment
-        it.text=compliment
-    }
 }
