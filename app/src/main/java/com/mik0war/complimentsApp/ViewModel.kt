@@ -1,8 +1,11 @@
 package com.mik0war.complimentsApp
 
 import androidx.annotation.DrawableRes
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
-class ViewModel(private val model: Model) {
+class ViewModel(private val model: Model) : ViewModel(){
     private var callBack : DataProvider? = null
 
     private val complimentCallBack = object : ComplimentCallBack {
@@ -20,12 +23,18 @@ class ViewModel(private val model: Model) {
 
     }
 
-    fun getJoke(){
-        model.getCompliment()
+    fun getJoke() = viewModelScope.launch{
+        val uiModel = model.getCompliment()
+        callBack?.let {
+            uiModel.map(it)
+        }
     }
 
-    fun changeComplimentStatus(){
-        model.changeComplimentStatus(complimentCallBack)
+    fun changeComplimentStatus() = viewModelScope.launch{
+        val uiModel = model.changeComplimentStatus()
+        callBack?.let {
+            uiModel?.map(it)
+        }
     }
 
     fun changeDataSource(isCached : Boolean){

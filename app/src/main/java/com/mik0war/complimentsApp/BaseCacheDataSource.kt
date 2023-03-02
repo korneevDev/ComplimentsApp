@@ -1,34 +1,40 @@
 package com.mik0war.complimentsApp
 
 import io.realm.Realm
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class BaseCacheDataSource(private val realm: Realm) : CacheDataSource {
-    override fun getCompliment(complimentCallBack: ComplimentCacheCallBack) {
-        realm.let{
-            val compliments = realm.where(ComplimentRealm::class.java).findAll()
+class BaseCacheDataSource(private val realmProvider: RealmProvider) : CacheDataSource {
+    override suspend fun getCompliment(): Result<Compliment, Unit> {
+        realmProvider.provide().let{
+            val compliments = it.where(ComplimentRealm::class.java).findAll()
             if(compliments.isEmpty())
-                complimentCallBack.fail()
+                return Result.Error(Unit)
             else
-                complimentCallBack.provide(Compliment(compliment= compliments.random().text))
+                return Result.Success(Compliment(
+                    compliment= compliments.random().text)
+                )
         }
     }
 
-    override fun addOrRemove(id: String, compliment: Compliment): ComplimentUIModel {
-        realm.let {
-            val curCompliment = realm.where(ComplimentRealm::class.java).equalTo("id", id).findFirst()
+    override suspend fun addOrRemove(id: String, compliment: Compliment): ComplimentUIModel =
+        withContext(Dispatchers.IO) {
+            Realm.getDefaultInstance().use {
+                val curCompliment =
+                    realmProvider.provide().where(ComplimentRealm::class.java).equalTo("id", id).findFirst()
 
-            return if (curCompliment == null){
-                it.executeTransactionAsync{transaction ->
-                    transaction.insert(compliment.toRealmModel())
-                }
-                compliment.toFavoriteCompliment()
-            } else {
-                it.executeTransaction{
-                    curCompliment.deleteFromRealm()
-                }
+                return@withContext if (curCompliment == null) {
+                    it.executeTransaction { transaction ->
+                        transaction.insert(compliment.toRealmModel())
+                    }
+                    compliment.toFavoriteCompliment()
+                } else {
+                    it.executeTransaction {
+                        curCompliment.deleteFromRealm()
+                    }
 
-                compliment.toBaseCompliment()
+                    compliment.toBaseCompliment()
+                }
             }
         }
-    }
 }

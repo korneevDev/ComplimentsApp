@@ -1,11 +1,11 @@
 package com.mik0war.complimentsApp
 
 interface Model {
-    fun getCompliment()
+    suspend fun getCompliment() : ComplimentUIModel
 
     fun init(callBack: ComplimentCallBack)
 
-    fun changeComplimentStatus(callBack: ComplimentCallBack)
+    suspend fun changeComplimentStatus() : ComplimentUIModel?
 
     fun chooseDataSource(isCache : Boolean)
 

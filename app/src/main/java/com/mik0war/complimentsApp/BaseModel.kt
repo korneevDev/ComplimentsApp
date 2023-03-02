@@ -14,51 +14,42 @@ class BaseModel(
 
     private var isGetFromCache = false
 
-    override fun getCompliment() {
+    override suspend fun getCompliment() : ComplimentUIModel{
         if(isGetFromCache){
-            cacheDataSource.getCompliment(object : ComplimentCacheCallBack{
-                override fun provide(compliment: Compliment) {
-                    cachedCompliment = compliment
-                    complimentCallBack?.provideCompliment(compliment.toFavoriteCompliment())
+            return when(val result = cacheDataSource.getCompliment()) {
+                is Result.Success -> {
+                    result.data.let {
+                        cachedCompliment = it
+                        it.toFavoriteCompliment()
+                    }
                 }
-
-                override fun fail() {
+                is Result.Error -> {
                     cachedCompliment = null
-                    complimentCallBack?.provideCompliment(
-                        FailedComplimentUIModel(noFavoriteCompliments.getErrorMessage())
-                    )
+                    FailedComplimentUIModel(noFavoriteCompliments.getErrorMessage())
                 }
+            }
 
-            })
-
-        } else{
-            cloudDataSource.getCompliment(object : ComplimentCloudCallBack{
-                override fun provide(compliment: Compliment) {
-                    cachedCompliment = compliment
-                    complimentCallBack?.provideCompliment(compliment.toBaseCompliment())
+        } else return  when (val result = cloudDataSource.getCompliment()) {
+            is Result.Success -> {
+                result.data.toCompliment().let {
+                    cachedCompliment = it
+                    it.toBaseCompliment()
                 }
-
-                override fun fail(error: ErrorType) {
-                    cachedCompliment = null
-                    complimentCallBack?.provideCompliment(FailedComplimentUIModel(
-                        if (error == ErrorType.SERVICE_UNAVAILABLE)
-                            serviceUnavailable.getErrorMessage()
-                        else
-                            noConnection.getErrorMessage()))
-                }
-            })
-        }
+            }
+            is Result.Error -> {
+                cachedCompliment = null
+                val type = if (result.errorType == ErrorType.NO_CONNECTION)
+                    noConnection else serviceUnavailable
+                FailedComplimentUIModel(type.getErrorMessage())
+            }
+            }
     }
 
     override fun init(callBack: ComplimentCallBack) {
         this.complimentCallBack = callBack
     }
 
-    override fun changeComplimentStatus(callBack: ComplimentCallBack) {
-        cachedCompliment?.change(cacheDataSource)?.let {
-            callBack.provideCompliment(it)
-        }
-    }
+    override suspend fun changeComplimentStatus(): ComplimentUIModel? = cachedCompliment?.change(cacheDataSource)
 
     override fun chooseDataSource(isCache: Boolean) {
         isGetFromCache = isCache
