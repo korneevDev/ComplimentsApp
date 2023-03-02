@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewmodel.init(object : DataProvider{
-            override fun provideText(text: String) = runOnUiThread{
+            override fun provideText(text: String){
                 processBar.visibility = View.INVISIBLE
                 textView.text = text
                 getButton.visibility = View.VISIBLE
@@ -58,14 +58,9 @@ class MainActivity : AppCompatActivity() {
                 getButton.isEnabled = true
             }
 
-            override fun provideIconId(id: Int) = runOnUiThread {
+            override fun provideIconId(id: Int){
                 favoriteIcon.setImageResource(id)
             }
         })
-    }
-
-    override fun onDestroy() {
-        viewmodel.clear()
-        super.onDestroy()
     }
 }
