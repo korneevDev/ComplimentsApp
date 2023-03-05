@@ -18,12 +18,24 @@ class ComplimentsApp : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        val cachedCompliment = BaseCachedCompliment()
+        val cacheDataSource = BaseCacheDataSource(BaseRealmProvider())
+        val resourceManager = BaseResourceManager(this)
+
         viewModel = ViewModel(
             BaseModel(
-                cacheDataSource=BaseCacheDataSource(BaseRealmProvider()),
-                cloudDataSource=BaseCloudDataSource(
-                    retrofit.create(ComplimentService::class.java)),
-                resourceManager = BaseResourceManager(this))
+                cachedCompliment = cachedCompliment,
+                cacheDataSource = cacheDataSource,
+                cloudResultHandler = CloudResultHandler(
+                    cachedCompliment,
+                    BaseCloudDataSource(retrofit.create(ComplimentService::class.java)),
+                    serviceUnavailable = ServiceUnavailable(resourceManager),
+                    noConnection = NoConnection(resourceManager)
+                ),
+                cacheResultHandler = CacheResultHandler(
+                    cachedCompliment,
+                    cacheDataSource,
+                    NoFavoriteCompliments(resourceManager))),
         )
     }
 }

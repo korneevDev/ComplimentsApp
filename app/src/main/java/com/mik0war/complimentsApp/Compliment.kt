@@ -5,9 +5,10 @@ import com.google.gson.annotations.SerializedName
 class Compliment (
     @SerializedName("compliment")
     private val compliment : String
-){
+) : ChangeCompliment{
 
-    suspend fun change(cacheDataSource: ChangeComplimentStatus) = cacheDataSource.addOrRemove(compliment, this)
+    override suspend fun change(cacheDataSource: ChangeComplimentStatus) =
+        cacheDataSource.addOrRemove(compliment, this)
 
     fun toBaseCompliment() = BaseComplimentUIModel(compliment)
 
