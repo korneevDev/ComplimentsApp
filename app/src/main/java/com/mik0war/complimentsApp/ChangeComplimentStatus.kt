@@ -1,6 +1,5 @@
 package com.mik0war.complimentsApp
 
-interface CacheDataSource {
-    suspend fun getCompliment() : Result<Compliment, Unit>
+interface ChangeComplimentStatus {
     suspend fun addOrRemove(id : String, compliment: Compliment) : ComplimentUIModel
 }

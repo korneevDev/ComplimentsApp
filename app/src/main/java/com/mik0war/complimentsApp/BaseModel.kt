@@ -1,5 +1,8 @@
 package com.mik0war.complimentsApp
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 class BaseModel(
     private val cloudDataSource: CloudDataSource,
     private val cacheDataSource: CacheDataSource,
@@ -13,22 +16,34 @@ class BaseModel(
 
     private var isGetFromCache = false
 
-    override suspend fun getCompliment() : ComplimentUIModel{
-        if(isGetFromCache){
-            return when(val result = cacheDataSource.getCompliment()) {
-                is Result.Success -> {
-                    result.data.let {
-                        cachedCompliment = it
-                        it.toFavoriteCompliment()
-                    }
-                }
-                is Result.Error -> {
-                    cachedCompliment = null
-                    FailedComplimentUIModel(noFavoriteCompliments.getErrorMessage())
-                }
-            }
+    override suspend fun getCompliment() : ComplimentUIModel = withContext(Dispatchers.IO){
+        val resultHandler = if (isGetFromCache)
+            CacheResultHandler(cacheDataSource)
+        else CloudResultHandler(cloudDataSource)
 
-        } else return  when (val result = cloudDataSource.getCompliment()) {
+        return@withContext resultHandler.process()
+    }
+    override suspend fun changeComplimentStatus(): ComplimentUIModel? = cachedCompliment?.change(cacheDataSource)
+
+    override fun chooseDataSource(isCache: Boolean) {
+        isGetFromCache = isCache
+    }
+
+    private interface ResultHandler<T, S> {
+        fun handleResult(result : Result<T, S>) : ComplimentUIModel
+    }
+
+    private abstract inner class BaseResultHandler<E, R>(
+        private val complimentDataFetcher: ComplimentDataFetcher<E, R>
+    ) : ResultHandler<E, R>{
+        suspend fun process(): ComplimentUIModel = handleResult(complimentDataFetcher.getCompliment())
+    }
+
+    private inner class CloudResultHandler(
+        complimentDataFetcher: ComplimentDataFetcher<ComplimentServerModel, ErrorType>) :
+        BaseResultHandler<ComplimentServerModel, ErrorType>(complimentDataFetcher) {
+        override fun handleResult(result: Result<ComplimentServerModel, ErrorType>): ComplimentUIModel =
+            when (result) {
             is Result.Success -> {
                 result.data.toCompliment().let {
                     cachedCompliment = it
@@ -41,11 +56,24 @@ class BaseModel(
                     noConnection else serviceUnavailable
                 FailedComplimentUIModel(type.getErrorMessage())
             }
-            }
+        }
     }
-    override suspend fun changeComplimentStatus(): ComplimentUIModel? = cachedCompliment?.change(cacheDataSource)
 
-    override fun chooseDataSource(isCache: Boolean) {
-        isGetFromCache = isCache
+    private inner class CacheResultHandler(
+        complimentDataFetcher: ComplimentDataFetcher<Compliment, Unit>) :
+        BaseResultHandler<Compliment, Unit>(complimentDataFetcher) {
+        override fun handleResult(result: Result<Compliment, Unit>): ComplimentUIModel =
+            when(result) {
+                is Result.Success -> {
+                    result.data.let {
+                        cachedCompliment = it
+                        it.toFavoriteCompliment()
+                    }
+                }
+                is Result.Error -> {
+                    cachedCompliment = null
+                    FailedComplimentUIModel(noFavoriteCompliments.getErrorMessage())
+                }
+            }
     }
 }

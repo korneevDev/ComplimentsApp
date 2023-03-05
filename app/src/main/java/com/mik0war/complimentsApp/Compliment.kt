@@ -7,7 +7,7 @@ class Compliment (
     private val compliment : String
 ){
 
-    suspend fun change(cacheDataSource: CacheDataSource) = cacheDataSource.addOrRemove(compliment, this)
+    suspend fun change(cacheDataSource: ChangeComplimentStatus) = cacheDataSource.addOrRemove(compliment, this)
 
     fun toBaseCompliment() = BaseComplimentUIModel(compliment)
 
