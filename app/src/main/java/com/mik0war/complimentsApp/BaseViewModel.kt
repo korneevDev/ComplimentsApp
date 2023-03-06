@@ -10,7 +10,7 @@ class BaseViewModel(
     private val communication: Communication,
     private val dispatcher : CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
-    fun getJoke() = viewModelScope.launch(dispatcher) {
+    fun getCompliment() = viewModelScope.launch(dispatcher) {
         communication.showData(model.getCompliment().getData())
     }
 
