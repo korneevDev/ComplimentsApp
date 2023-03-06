@@ -10,14 +10,12 @@ class BaseViewModel(
     private val communication: Communication,
     private val dispatcher : CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
-    fun getJoke() = viewModelScope.launch(dispatcher) {
-        communication.showData(model.getCompliment().getData())
+    fun getCompliment() = viewModelScope.launch(dispatcher) {
+        model.getCompliment().getData(communication)
     }
 
     fun changeComplimentStatus() = viewModelScope.launch(dispatcher) {
-        model.changeComplimentStatus()?.let {
-            communication.showData(it.getData())
-        }
+        model.changeComplimentStatus()?.getData(communication)
     }
 
     fun changeDataSource(isCached: Boolean) {

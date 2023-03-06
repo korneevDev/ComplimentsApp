@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             favoriteIcon.visibility = View.INVISIBLE
 
             processBar.visibility = View.VISIBLE
-            viewmodel.getJoke()
+            viewmodel.getCompliment()
         }
 
         viewmodel.observe(this) { (text, iconResId) ->

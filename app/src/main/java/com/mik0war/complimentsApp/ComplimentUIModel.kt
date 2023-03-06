@@ -20,5 +20,5 @@ abstract class ComplimentUIModel (
     protected fun getComplimentUI() = text
     @DrawableRes
     protected abstract fun getIconResId() : Int
-    fun getData() = Pair(getComplimentUI(), getIconResId())
+    fun getData(communication: Communication) = communication.showData(Pair(getComplimentUI(), getIconResId()))
 }
