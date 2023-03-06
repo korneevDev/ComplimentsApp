@@ -10,12 +10,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewmodel : ViewModel
+    private lateinit var viewmodel : BaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewmodel = (application as ComplimentsApp).viewModel
+        viewmodel = (application as ComplimentsApp).baseViewModel
 
         val checkBox = findViewById<CheckBox>(R.id.checkbox)
         checkBox.setOnCheckedChangeListener{_, isChecked ->
@@ -46,21 +46,16 @@ class MainActivity : AppCompatActivity() {
             viewmodel.getJoke()
         }
 
-        viewmodel.init(object : DataProvider{
-            override fun provideText(text: String){
-                processBar.visibility = View.INVISIBLE
-                textView.text = text
-                getButton.visibility = View.VISIBLE
-                textView.visibility = View.VISIBLE
-                checkBox.visibility = View.VISIBLE
-                line.visibility = View.VISIBLE
-                favoriteIcon.visibility = View.VISIBLE
-                getButton.isEnabled = true
-            }
-
-            override fun provideIconId(id: Int){
-                favoriteIcon.setImageResource(id)
-            }
-        })
+        viewmodel.observe(this) { (text, iconResId) ->
+            processBar.visibility = View.INVISIBLE
+            textView.text = text
+            getButton.visibility = View.VISIBLE
+            textView.visibility = View.VISIBLE
+            checkBox.visibility = View.VISIBLE
+            line.visibility = View.VISIBLE
+            favoriteIcon.visibility = View.VISIBLE
+            getButton.isEnabled = true
+            favoriteIcon.setImageResource(iconResId)
+        }
     }
 }

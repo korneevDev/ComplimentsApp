@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ComplimentsApp : Application() {
 
-    lateinit var viewModel : ViewModel
+    lateinit var baseViewModel : BaseViewModel
 
     override fun onCreate() {
         super.onCreate()
@@ -22,7 +22,7 @@ class ComplimentsApp : Application() {
         val cacheDataSource = BaseCacheDataSource(BaseRealmProvider())
         val resourceManager = BaseResourceManager(this)
 
-        viewModel = ViewModel(
+        baseViewModel = BaseViewModel(
             BaseModel(
                 cachedCompliment = cachedCompliment,
                 cacheDataSource = cacheDataSource,
@@ -36,6 +36,7 @@ class ComplimentsApp : Application() {
                     cachedCompliment,
                     cacheDataSource,
                     NoFavoriteCompliments(resourceManager))),
+            BaseCommunication()
         )
     }
 }

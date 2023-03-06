@@ -18,12 +18,7 @@ abstract class ComplimentUIModel (
     private val text : String
 ){
     protected fun getComplimentUI() = text
-
     @DrawableRes
     protected abstract fun getIconResId() : Int
-
-    fun map(callBack: DataProvider) = callBack.run {
-        provideText(getComplimentUI())
-        provideIconId(getIconResId())
-    }
+    fun getData() = Pair(getComplimentUI(), getIconResId())
 }
