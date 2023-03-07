@@ -5,18 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
 interface Communication {
-    fun showData(data: Pair<String, Int>)
-    fun observe(owner: LifecycleOwner, observer: Observer<Pair<String, Int>>)
+    fun showState(state: State)
+    fun observe(owner: LifecycleOwner, observer: Observer<State>)
 }
 
 class BaseCommunication : Communication{
-    private val liveData = MutableLiveData<Pair<String, Int>>()
+    private val liveData = MutableLiveData<State>()
 
-    override fun showData(data: Pair<String, Int>) {
-        liveData.value = data
+    override fun showState(state: State) {
+        liveData.value = state
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<Pair<String, Int>>) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<State>) {
         liveData.observe(owner, observer)
     }
 }

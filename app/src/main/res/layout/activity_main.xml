@@ -11,17 +11,10 @@
     <CheckBox
         android:id="@+id/checkbox"
         android:layout_width="match_parent"
-        android:maxWidth="320dp"
         android:layout_height="wrap_content"
         android:text="@string/show_favorite_compliment"
         android:textSize="20sp"
         android:padding="@dimen/padding_16dp"/>
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/purple_700" />
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -29,7 +22,8 @@
     android:orientation="horizontal"
     android:gravity="center"
     tools:ignore="UseCompoundDrawables">
-    <TextView
+
+    <com.mik0war.complimentsApp.CustomTextView
         android:id="@+id/compliment_view"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -42,25 +36,23 @@
         android:layout_gravity="center"
         tools:text="Compliment"/>
 
-    <ImageButton
+    <com.mik0war.complimentsApp.CustomImageButton
         android:id="@+id/favorite_icon"
         android:padding="@dimen/padding_16dp"
         android:layout_width="wrap_content"
-        android:visibility="invisible"
         android:background="?selectableItemBackground"
         android:layout_height="wrap_content"
         android:contentDescription="@string/favorite_icon"
-        tools:src="@drawable/favorite_empty"
-        tools:visibility="visible"/>
+        tools:src="@drawable/favorite_empty" />
 </LinearLayout>
-    <ProgressBar
+    <com.mik0war.complimentsApp.CustomProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:indeterminate="true"
         />
-    <Button
+    <com.mik0war.complimentsApp.CustomButton
         android:id="@+id/get_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

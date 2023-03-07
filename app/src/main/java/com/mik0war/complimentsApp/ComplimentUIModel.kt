@@ -17,8 +17,7 @@ class FailedComplimentUIModel(text: String) : ComplimentUIModel(text) {
 abstract class ComplimentUIModel (
     private val text : String
 ){
-    protected fun getComplimentUI() = text
     @DrawableRes
     protected abstract fun getIconResId() : Int
-    fun getData(communication: Communication) = communication.showData(Pair(getComplimentUI(), getIconResId()))
+    fun getData(communication: Communication) = communication.showState(State.Initial(text, getIconResId()))
 }
