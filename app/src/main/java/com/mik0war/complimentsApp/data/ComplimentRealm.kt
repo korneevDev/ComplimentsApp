@@ -9,5 +9,5 @@ open class ComplimentRealm : RealmObject(), Mapper<ComplimentDataModel> {
     var id = ""
     var text = ""
 
-    override fun to() = ComplimentDataModel(text)
+    override fun to() = ComplimentDataModel(text, true)
 }

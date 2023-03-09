@@ -13,6 +13,6 @@ class CustomTextView : androidx.appcompat.widget.AppCompatTextView, ShowText {
     )
 
     override fun show(arg: String) {
-        this.text = text
+        this.text = arg
     }
 }

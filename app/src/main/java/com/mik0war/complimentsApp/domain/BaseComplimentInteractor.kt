@@ -8,7 +8,8 @@ class BaseComplimentInteractor(
 ) : ComplimentInteractor {
     override suspend fun getCompliment(): Compliment =
         try {
-            Compliment.Success(repository.getCompliment().compliment, false)
+            val compliment = repository.getCompliment()
+            Compliment.Success(compliment.compliment, compliment.cached)
         } catch (e: Exception) {
             Compliment.Failed(complimentFailureHandler.handle(e))
         }

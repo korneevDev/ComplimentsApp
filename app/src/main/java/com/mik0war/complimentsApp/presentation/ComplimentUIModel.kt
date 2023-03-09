@@ -25,7 +25,9 @@ abstract class ComplimentUIModel (
     protected fun text() = text
     @DrawableRes
     protected abstract fun getIconResId() : Int
-    open fun getData(communication: Communication) = communication.showState(
-        State.Initial(text(), getIconResId())
-    )
+    open fun getData(communication: Communication) {
+        communication.showState(
+            State.Initial(text(), getIconResId())
+        )
+    }
 }
