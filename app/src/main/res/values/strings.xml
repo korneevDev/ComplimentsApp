@@ -6,4 +6,5 @@
     <string name="show_favorite_compliment">Show favorite compliment</string>
     <string name="favorite_icon">Favorite icon</string>
     <string name="no_favorite_compliments">There are no favorite compliments\nAdd new one by pressing heart icon</string>
+    <string name="default_error_message">Error</string>
 </resources>
