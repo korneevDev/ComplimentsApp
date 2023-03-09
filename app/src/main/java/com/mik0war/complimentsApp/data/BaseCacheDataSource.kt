@@ -4,7 +4,10 @@ import com.mik0war.complimentsApp.domain.NoFavoriteComplimentsException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class BaseCacheDataSource(private val realmProvider: RealmProvider) : CacheDataSource {
+class BaseCacheDataSource(
+    private val realmProvider: RealmProvider,
+    private val mapper: ComplimentDataModelMapper<ComplimentRealm>
+) : CacheDataSource {
     override suspend fun getCompliment(): ComplimentDataModel {
         realmProvider.provide().let{
             val compliments = it.where(ComplimentRealm::class.java).findAll()
@@ -23,7 +26,7 @@ class BaseCacheDataSource(private val realmProvider: RealmProvider) : CacheDataS
 
                 return@withContext if (curCompliment == null) {
                     it.executeTransaction { transaction ->
-                        transaction.insert(compliment.toRealm())
+                        transaction.insert(compliment.map(mapper))
                     }
                     compliment.changeCached(true)
                 } else {

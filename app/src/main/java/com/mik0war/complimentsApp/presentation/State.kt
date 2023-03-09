@@ -42,10 +42,10 @@ sealed class State{
         }
     }
 
-    open class Initial(private val text: String, @DrawableRes private val id: Int) : Info(text, id){
+    open class Initial(text: String, id: Int) : Info(text, id){
         override val type = INITIAL
     }
-    class Failed(private val text: String, @DrawableRes private val id: Int) : Initial(text, id){
+    class Failed(text: String, id: Int) : Initial(text, id){
         override val type = FAILED
     }
 

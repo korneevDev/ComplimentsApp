@@ -24,12 +24,13 @@ class ComplimentsApp : Application() {
             .build()
 
         val cachedCompliment = BaseCachedCompliment()
-        val cacheDataSource = BaseCacheDataSource(BaseRealmProvider())
+        val cacheDataSource = BaseCacheDataSource(BaseRealmProvider(), ComplimentRealmMapper())
         val resourceManager = BaseResourceManager(this)
         val cloudDataSource = BaseCloudDataSource(retrofit.create(ComplimentService::class.java))
 
         val repository = BaseRepository(cacheDataSource, cloudDataSource, cachedCompliment)
-        val interactor = BaseComplimentInteractor(repository, ComplimentFailureFactory(resourceManager))
+        val interactor = BaseComplimentInteractor(repository, ComplimentFailureFactory(resourceManager),
+            ComplimentSuccessMapper())
 
         baseViewModel = BaseViewModel(interactor, BaseCommunication())
     }
