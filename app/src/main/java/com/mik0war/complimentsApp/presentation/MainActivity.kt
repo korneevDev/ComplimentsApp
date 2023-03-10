@@ -2,8 +2,6 @@ package com.mik0war.complimentsApp.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.CheckBox
 import com.mik0war.complimentsApp.R
 
 class MainActivity : AppCompatActivity() {
@@ -14,28 +12,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         viewmodel = (application as ComplimentsApp).baseViewModel
 
-        val checkBox = findViewById<CheckBox>(R.id.checkbox)
-        checkBox.setOnCheckedChangeListener{_, isChecked ->
+        val favoriteDataView = findViewById<FavoriteDataView>(R.id.favorite_data_view)
+
+        favoriteDataView.listenChanges {isChecked ->
             viewmodel.changeDataSource(isChecked)
         }
 
-        val processBar = findViewById<CustomProgressBar>(R.id.progress_bar)
-        processBar.visibility = View.INVISIBLE
-
-        val textView = findViewById<CustomTextView>(R.id.compliment_view)
-        val getButton = findViewById<CustomButton>(R.id.get_button)
-        val favoriteIcon = findViewById<CustomImageButton>(R.id.favorite_icon)
-
-        favoriteIcon.setOnClickListener{
+        favoriteDataView.handleChangeButton {
             viewmodel.changeComplimentStatus()
         }
 
-        getButton.setOnClickListener {
+        favoriteDataView.handleActionButton {
             viewmodel.getCompliment()
         }
 
         viewmodel.observe(this) { state ->
-                state.show(processBar, getButton, textView, favoriteIcon)
+                favoriteDataView.show(state)
         }
     }
+
+
 }
