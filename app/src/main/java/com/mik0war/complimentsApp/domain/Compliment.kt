@@ -1,6 +1,5 @@
 package com.mik0war.complimentsApp.domain
 
-import com.mik0war.complimentsApp.ComplimentError
 import com.mik0war.complimentsApp.presentation.BaseComplimentUIModel
 import com.mik0war.complimentsApp.presentation.ComplimentUIModel
 import com.mik0war.complimentsApp.presentation.FailedComplimentUIModel

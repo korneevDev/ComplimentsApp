@@ -1,7 +1,5 @@
 package com.mik0war.complimentsApp.domain
 
-import com.mik0war.complimentsApp.*
-
 interface ComplimentFailureHandler {
     fun handle(e : Exception) : ComplimentError
 }

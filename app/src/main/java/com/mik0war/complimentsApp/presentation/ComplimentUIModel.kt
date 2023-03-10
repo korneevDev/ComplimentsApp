@@ -1,7 +1,6 @@
 package com.mik0war.complimentsApp.presentation
 
 import androidx.annotation.DrawableRes
-import com.mik0war.complimentsApp.Communication
 import com.mik0war.complimentsApp.R
 
 class BaseComplimentUIModel(text: String) : ComplimentUIModel(text) {

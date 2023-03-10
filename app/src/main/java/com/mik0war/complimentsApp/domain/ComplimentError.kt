@@ -1,6 +1,6 @@
-package com.mik0war.complimentsApp
+package com.mik0war.complimentsApp.domain
 
-import com.mik0war.complimentsApp.domain.ResourceManager
+import com.mik0war.complimentsApp.R
 
 interface ComplimentError{
     fun getErrorMessage() : String

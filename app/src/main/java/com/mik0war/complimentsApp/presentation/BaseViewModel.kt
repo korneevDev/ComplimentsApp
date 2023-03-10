@@ -1,7 +1,6 @@
 package com.mik0war.complimentsApp.presentation
 
 import androidx.lifecycle.*
-import com.mik0war.complimentsApp.Communication
 import com.mik0war.complimentsApp.domain.ComplimentInteractor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

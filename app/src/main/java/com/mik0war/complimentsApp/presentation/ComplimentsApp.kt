@@ -1,7 +1,6 @@
 package com.mik0war.complimentsApp.presentation
 
 import android.app.Application
-import com.mik0war.complimentsApp.BaseCommunication
 import com.mik0war.complimentsApp.data.*
 import com.mik0war.complimentsApp.domain.BaseComplimentInteractor
 import com.mik0war.complimentsApp.domain.BaseResourceManager
