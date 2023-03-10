@@ -9,21 +9,25 @@ import android.widget.LinearLayout
 import com.mik0war.complimentsApp.R
 
 class FavoriteDataView : LinearLayout {
-    private val checkBox : CheckBox
-    private val textView : CustomTextView
-    private val button : CustomButton
-    private val progressBar : CustomProgressBar
-    private val favoriteIcon : CustomImageButton
+    private lateinit var checkBox : CheckBox
+    private lateinit var textView : CustomTextView
+    private lateinit var button : CustomButton
+    private lateinit var progressBar : CustomProgressBar
+    private lateinit var favoriteIcon : CustomImageButton
 
     constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+    constructor(context: Context?, attrs: AttributeSet) : super(context, attrs){
+        init(attrs)
+    }
+    constructor(context: Context?, attrs: AttributeSet, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
-    )
+    ){
+        init(attrs)
+    }
 
-    init {
+    private fun init(attrs: AttributeSet) {
         orientation = VERTICAL
         (context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -35,6 +39,21 @@ class FavoriteDataView : LinearLayout {
         progressBar = findViewById(R.id.progress_bar)
         progressBar.visibility = View.INVISIBLE
         favoriteIcon = findViewById(R.id.favorite_icon)
+
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.FavoriteDataView,
+            0, 0).apply {
+            try{
+                val buttonText = getString(R.styleable.FavoriteDataView_buttonText)
+                button.text = buttonText
+
+                val checkBoxText = getString(R.styleable.FavoriteDataView_checkBoxText)
+                checkBox.text = checkBoxText
+            } finally {
+                recycle()
+            }
+        }
     }
 
     fun listenChanges(block: (checked: Boolean) -> Unit) =
