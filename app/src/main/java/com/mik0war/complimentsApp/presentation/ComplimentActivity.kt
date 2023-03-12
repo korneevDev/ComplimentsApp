@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mik0war.complimentsApp.ComplimentsApp
 import com.mik0war.complimentsApp.R
-import com.mik0war.complimentsApp.data.CommonDataModel
 
 class ComplimentActivity : AppCompatActivity() {
     private lateinit var viewModel : BaseViewModel
@@ -26,9 +25,10 @@ class ComplimentActivity : AppCompatActivity() {
         val adapter = CommonRecyclerViewAdapter()
         recyclerView.adapter = adapter
 
-        val list = ArrayList<CommonDataModel>()
-        for (i in 0..100)
-            list.add(CommonDataModel(i.toString(), "$i. showed very loooooooooooooooooooooooooooooooooooooong text $i", true))
-        adapter.show(list)
+        viewModel.observeList(this) {
+            adapter.show(it)
+        }
+
+        viewModel.getItemList()
     }
 }

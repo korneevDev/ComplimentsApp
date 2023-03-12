@@ -3,6 +3,7 @@ package com.mik0war.complimentsApp.presentation
 import androidx.annotation.DrawableRes
 import com.mik0war.complimentsApp.R
 import com.mik0war.complimentsApp.core.presentation.Communication
+import com.mik0war.complimentsApp.core.presentation.ShowText
 
 class BaseCommonUIModel(text: String) : CommonUIModel(text) {
     override fun getIconResId(): Int = R.drawable.favorite_empty
@@ -30,4 +31,6 @@ abstract class CommonUIModel (
             State.Initial(text(), getIconResId())
         )
     }
+
+    fun map(showText: ShowText) = showText.show(text)
 }

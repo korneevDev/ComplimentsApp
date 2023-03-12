@@ -7,6 +7,7 @@ import com.mik0war.complimentsApp.core.data.cache.CacheDataSource
 import com.mik0war.complimentsApp.core.domain.NoFavorites
 import com.mik0war.complimentsApp.data.CommonDataModel
 import io.realm.RealmObject
+import io.realm.RealmResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -16,29 +17,38 @@ abstract class BaseCacheDataSource<T : RealmObject>(
     private val commonDataMapper: RealmToCommonDataMapper<T>
 ) : CacheDataSource {
     protected abstract val dbClass : Class<T>
-    override suspend fun getData(): CommonDataModel {
+
+
+    override suspend fun getDataList() = getRealmData{
+            list -> list.map{ commonDataMapper.map(it)}
+    }
+    override suspend fun getData() = getRealmData{
+        commonDataMapper.map(it.random())
+    }
+
+    private fun <E> getRealmData(block: (list: RealmResults<T>) -> E): E {
         realmProvider.provide().let{
-            val compliments = it.where(dbClass).findAll()
-            if(compliments.isEmpty())
+            val list = it.where(dbClass).findAll()
+            if(list.isEmpty())
                 throw NoFavorites()
             else
-                return commonDataMapper.map(compliments.random())
+                return block.invoke(list)
         }
     }
     override suspend fun addOrRemove(id: String, model: CommonDataModel): CommonDataModel =
         withContext(Dispatchers.IO) {
             realmProvider.provide().use {
-                val curCompliment =
+                val curItem =
                     it.where(dbClass).equalTo("id", id).findFirst()
 
-                return@withContext if (curCompliment == null) {
+                return@withContext if (curItem == null) {
                     it.executeTransaction { transaction ->
                         transaction.insert(model.map(mapper))
                     }
                     model.changeCached(true)
                 } else {
                     it.executeTransaction {
-                        curCompliment.deleteFromRealm()
+                        curItem.deleteFromRealm()
                     }
                     model.changeCached(false)
                 }

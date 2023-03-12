@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mik0war.complimentsApp.R
-import com.mik0war.complimentsApp.data.CommonDataModel
 
 class CommonRecyclerViewAdapter : RecyclerView.Adapter<CommonRecyclerViewAdapter.CommonDataViewHolder>() {
-    private val list = ArrayList<CommonDataModel>()
+    private val list = ArrayList<CommonUIModel>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun show(data : List<CommonDataModel>){
+    fun show(data : List<CommonUIModel>){
         list.clear()
         list.addAll(data)
         notifyDataSetChanged()
@@ -21,7 +20,7 @@ class CommonRecyclerViewAdapter : RecyclerView.Adapter<CommonRecyclerViewAdapter
     inner class CommonDataViewHolder(view : View) : RecyclerView.ViewHolder(view){
         private val textView = itemView.findViewById<CustomTextView>(R.id.commonDataTextView)
 
-        fun bind(item : CommonDataModel) = item.map(textView)
+        fun bind(item : CommonUIModel) = item.map(textView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonDataViewHolder {
