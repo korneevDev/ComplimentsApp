@@ -4,18 +4,18 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.MainActivity"
+    tools:context=".base.presentation.MainActivity"
     android:orientation="vertical"
     android:gravity="center">
 
-    <com.mik0war.complimentsApp.presentation.FavoriteDataView
+    <com.mik0war.complimentsApp.base.presentation.FavoriteDataView
         android:id="@+id/favorite_data_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:buttonText="@string/get_button"
         custom:checkBoxText="@string/show_favorite_compliment"/>
 
-    <com.mik0war.complimentsApp.presentation.FavoriteDataView
+    <com.mik0war.complimentsApp.base.presentation.FavoriteDataView
         android:id="@+id/favorite_quotes_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
