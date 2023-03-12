@@ -1,25 +1,21 @@
 package com.mik0war.complimentsApp
 
 import android.app.Application
-import com.mik0war.complimentsApp.base.data.cloud.ComplimentService
-import com.mik0war.complimentsApp.base.data.cache.BaseCachedCommonItem
-import com.mik0war.complimentsApp.base.data.mapper.ComplimentRealmMapper
-import com.mik0war.complimentsApp.base.data.cache.BaseRealmProvider
-import com.mik0war.complimentsApp.base.data.BaseRepository
-import com.mik0war.complimentsApp.base.data.CommonSuccessMapper
-import com.mik0war.complimentsApp.base.domain.BaseInteractor
-import com.mik0war.complimentsApp.base.domain.FailureFactory
-import com.mik0war.complimentsApp.base.presentation.BaseCommunication
-import com.mik0war.complimentsApp.base.presentation.BaseResourceManager
-import com.mik0war.complimentsApp.base.presentation.BaseViewModel
-import com.mik0war.complimentsApp.base.data.cache.ComplimentCacheDataSource
-import com.mik0war.complimentsApp.base.data.cloud.ComplimentCloudDataSource
-import com.mik0war.complimentsApp.base.data.cache.ComplimentRealmToCommonDataMapper
-import com.mik0war.complimentsApp.base.data.cache.QuoteCacheDataSource
-import com.mik0war.complimentsApp.base.data.cloud.QuoteCloudDataSource
-import com.mik0war.complimentsApp.base.data.cloud.QuoteService
-import com.mik0war.complimentsApp.base.data.mapper.QuoteRealmMapper
-import com.mik0war.complimentsApp.base.data.cache.QuoteRealmToCommonDataMapper
+
+import com.mik0war.complimentsApp.data.BaseRepository
+import com.mik0war.complimentsApp.data.CommonSuccessMapper
+import com.mik0war.complimentsApp.data.cache.*
+import com.mik0war.complimentsApp.data.cloud.ComplimentCloudDataSource
+import com.mik0war.complimentsApp.data.cloud.ComplimentService
+import com.mik0war.complimentsApp.data.cloud.QuoteCloudDataSource
+import com.mik0war.complimentsApp.data.cloud.QuoteService
+import com.mik0war.complimentsApp.data.mapper.ComplimentRealmMapper
+import com.mik0war.complimentsApp.data.mapper.QuoteRealmMapper
+import com.mik0war.complimentsApp.domain.BaseInteractor
+import com.mik0war.complimentsApp.domain.FailureFactory
+import com.mik0war.complimentsApp.presentation.BaseCommunication
+import com.mik0war.complimentsApp.presentation.BaseResourceManager
+import com.mik0war.complimentsApp.presentation.BaseViewModel
 import io.realm.Realm
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -45,7 +41,11 @@ class ComplimentsApp : Application() {
         )
         val complimentCloudDataSource = ComplimentCloudDataSource(retrofit.create(ComplimentService::class.java))
 
-        val repository = BaseRepository(complimentCacheDataSource, complimentCloudDataSource, BaseCachedCommonItem())
+        val repository = BaseRepository(
+            complimentCacheDataSource,
+            complimentCloudDataSource,
+            BaseCachedCommonItem()
+        )
         val interactor = BaseInteractor(repository, failureFactory,
             CommonSuccessMapper()
         )
@@ -54,11 +54,15 @@ class ComplimentsApp : Application() {
 
         quoteViewModel = BaseViewModel(
             BaseInteractor(
-            BaseRepository(
-            QuoteCacheDataSource(realmProvider, QuoteRealmMapper(), QuoteRealmToCommonDataMapper()),
-            QuoteCloudDataSource(retrofit.create(QuoteService::class.java)),
-            BaseCachedCommonItem()
-        ), failureFactory, CommonSuccessMapper()
+                BaseRepository(
+                    QuoteCacheDataSource(
+                        realmProvider,
+                        QuoteRealmMapper(),
+                        QuoteRealmToCommonDataMapper()
+                    ),
+                    QuoteCloudDataSource(retrofit.create(QuoteService::class.java)),
+                    BaseCachedCommonItem()
+                ), failureFactory, CommonSuccessMapper()
         )
         , BaseCommunication()
         )

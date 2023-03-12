@@ -1,6 +1,6 @@
 package com.mik0war.complimentsApp.core.domain
 
-import com.mik0war.complimentsApp.base.domain.CommonItem
+import com.mik0war.complimentsApp.domain.CommonItem
 
 interface CommonInteractor {
     suspend fun getItem() : CommonItem
