@@ -3,22 +3,22 @@ package com.mik0war.complimentsApp.presentation
 import androidx.annotation.DrawableRes
 import com.mik0war.complimentsApp.R
 
-class BaseComplimentUIModel(text: String) : ComplimentUIModel(text) {
+class BaseCommonUIModel(text: String) : CommonUIModel(text) {
     override fun getIconResId(): Int = R.drawable.favorite_empty
 }
 
-class FavoriteComplimentUIModel(text: String) : ComplimentUIModel(text) {
+class FavoriteCommonUIModel(text: String) : CommonUIModel(text) {
     override fun getIconResId(): Int = R.drawable.favorite_fill
 }
 
-class FailedComplimentUIModel(text: String) : ComplimentUIModel(text) {
+class FailedCommonUIModel(text: String) : CommonUIModel(text) {
     override fun getIconResId(): Int = 0
     override fun getData(communication: Communication) = communication.showState(
         State.Failed(text(), getIconResId())
     )
 }
 
-abstract class ComplimentUIModel (
+abstract class CommonUIModel (
     private val text : String
 ){
     protected fun text() = text

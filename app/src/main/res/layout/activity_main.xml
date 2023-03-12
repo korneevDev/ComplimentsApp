@@ -11,7 +11,14 @@
     <com.mik0war.complimentsApp.presentation.FavoriteDataView
         android:id="@+id/favorite_data_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         custom:buttonText="@string/get_button"
         custom:checkBoxText="@string/show_favorite_compliment"/>
+
+    <com.mik0war.complimentsApp.presentation.FavoriteDataView
+        android:id="@+id/favorite_quotes_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:buttonText="@string/get_quote_button"
+        custom:checkBoxText="@string/show_favorite_quotes"/>
 </LinearLayout>

@@ -13,10 +13,18 @@ class BaseRealmProvider() : RealmProvider {
     override fun provide(): Realm = Realm.getDefaultInstance()
 }
 
-open class ComplimentRealm : RealmObject(), Mapper<ComplimentDataModel> {
+open class ComplimentRealm : RealmObject(), Mapper<CommonDataModel> {
     @PrimaryKey
     var id = ""
     var text = ""
 
-    override fun to() = ComplimentDataModel(text, true)
+    override fun to() = CommonDataModel(id, text, true)
+}
+
+open class QuoteRealm : RealmObject(), Mapper<CommonDataModel> {
+    @PrimaryKey
+    var id = ""
+    var text = ""
+
+    override fun to() = CommonDataModel(id, text, true)
 }

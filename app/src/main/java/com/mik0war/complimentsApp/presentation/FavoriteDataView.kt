@@ -34,7 +34,7 @@ class FavoriteDataView : LinearLayout {
             .inflate(R.layout.favorite_data_view, this, true)
 
         checkBox = getChildAt(0) as CheckBox
-        textView = findViewById(R.id.compliment_view)
+        textView = findViewById(R.id.data_view)
         button = findViewById(R.id.get_button)
         progressBar = findViewById(R.id.progress_bar)
         progressBar.visibility = View.INVISIBLE
@@ -56,20 +56,19 @@ class FavoriteDataView : LinearLayout {
         }
     }
 
-    fun listenChanges(block: (checked: Boolean) -> Unit) =
+    fun linkWith(commonViewModel: CommonViewModel){
         checkBox.setOnCheckedChangeListener{_, isChecked ->
-            block.invoke(isChecked)
+            commonViewModel.changeDataSource(isChecked)
         }
 
-    fun handleChangeButton(block : () -> Unit) =
         favoriteIcon.setOnClickListener{
-            block.invoke()
+            commonViewModel.changeItemStatus()
         }
 
-    fun handleActionButton(block: () -> Unit) =
         button.setOnClickListener{
-            block.invoke()
+            commonViewModel.getItem()
         }
+    }
 
     fun show(state : State) = state.show(progressBar, button, textView, favoriteIcon)
 }

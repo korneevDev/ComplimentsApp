@@ -1,31 +1,39 @@
 package com.mik0war.complimentsApp.presentation
 
 import androidx.lifecycle.*
-import com.mik0war.complimentsApp.domain.ComplimentInteractor
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.mik0war.complimentsApp.domain.CommonInteractor
+import kotlinx.coroutines.*
+
+interface CommonViewModel{
+    fun getItem()
+    fun changeItemStatus()
+    fun changeDataSource(isCached: Boolean)
+    fun observe(owner: LifecycleOwner, observer: Observer<State>)
+}
 
 class BaseViewModel(
-    private val interactor: ComplimentInteractor,
+    private val interactor: CommonInteractor,
     private val communication: Communication,
     private val dispatcher : CoroutineDispatcher = Dispatchers.Main
-) : ViewModel() {
-    fun getCompliment() = viewModelScope.launch(dispatcher) {
-        communication.showState(State.Progress)
-        interactor.getCompliment().to().getData(communication)
+) : ViewModel(), CommonViewModel {
+    override fun getItem() {
+        viewModelScope.launch(dispatcher) {
+            communication.showState(State.Progress)
+            interactor.getItem().to().getData(communication)
+    }}
+
+    override fun changeItemStatus() {
+        viewModelScope.launch(dispatcher) {
+            if(communication.isState(State.INITIAL))
+                interactor.changeFavorites().to().getData(communication)
+            }
     }
 
-    fun changeComplimentStatus() = viewModelScope.launch(dispatcher) {
-        if(communication.isState(State.INITIAL))
-            interactor.changeFavorites().to().getData(communication)
+    override fun changeDataSource(isCached: Boolean) {
+        interactor.getFavoriteItems(isCached)
     }
 
-    fun changeDataSource(isCached: Boolean) {
-        interactor.getFavoriteCompliments(isCached)
-    }
-
-    fun observe(owner: LifecycleOwner, observer: Observer<State>){
+    override fun observe(owner: LifecycleOwner, observer: Observer<State>){
         communication.observe(owner, observer)
     }
 }

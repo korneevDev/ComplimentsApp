@@ -2,9 +2,7 @@ package com.mik0war.complimentsApp.presentation
 
 import android.app.Application
 import com.mik0war.complimentsApp.data.*
-import com.mik0war.complimentsApp.domain.BaseComplimentInteractor
-import com.mik0war.complimentsApp.domain.BaseResourceManager
-import com.mik0war.complimentsApp.domain.ComplimentFailureFactory
+import com.mik0war.complimentsApp.domain.*
 import io.realm.Realm
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ComplimentsApp : Application() {
 
     lateinit var baseViewModel : BaseViewModel
+    lateinit var quoteViewModel: BaseViewModel
 
     override fun onCreate() {
         super.onCreate()
@@ -22,15 +21,22 @@ class ComplimentsApp : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val cachedCompliment = BaseCachedCompliment()
-        val cacheDataSource = BaseCacheDataSource(BaseRealmProvider(), ComplimentRealmMapper())
-        val resourceManager = BaseResourceManager(this)
-        val cloudDataSource = BaseCloudDataSource(retrofit.create(ComplimentService::class.java))
+        val realmProvider = BaseRealmProvider()
+        val failureFactory = FailureFactory(BaseResourceManager(this))
+        val complimentCacheDataSource = ComplimentCacheDataSource(realmProvider, ComplimentRealmMapper())
+        val complimentCloudDataSource = ComplimentCloudDataSource(retrofit.create(ComplimentService::class.java))
 
-        val repository = BaseRepository(cacheDataSource, cloudDataSource, cachedCompliment)
-        val interactor = BaseComplimentInteractor(repository, ComplimentFailureFactory(resourceManager),
-            ComplimentSuccessMapper())
+        val repository = BaseRepository(complimentCacheDataSource, complimentCloudDataSource, BaseCachedCommonItem())
+        val interactor = BaseInteractor(repository, failureFactory,
+            CommonSuccessMapper())
 
         baseViewModel = BaseViewModel(interactor, BaseCommunication())
+
+        quoteViewModel = BaseViewModel(BaseInteractor(BaseRepository(
+            QuoteCacheDataSource(realmProvider, QuoteRealmMapper()),
+            QuoteCloudDataSource(retrofit.create(QuoteService::class.java)),
+            BaseCachedCommonItem()
+        ), failureFactory, CommonSuccessMapper())
+        , BaseCommunication())
     }
 }

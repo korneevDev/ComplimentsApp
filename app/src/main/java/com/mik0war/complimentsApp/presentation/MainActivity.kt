@@ -5,31 +5,26 @@ import android.os.Bundle
 import com.mik0war.complimentsApp.R
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewmodel : BaseViewModel
+    private lateinit var viewModel : BaseViewModel
+    private lateinit var quoteViewModel: BaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewmodel = (application as ComplimentsApp).baseViewModel
+        viewModel = (application as ComplimentsApp).baseViewModel
 
         val favoriteDataView = findViewById<FavoriteDataView>(R.id.favorite_data_view)
-
-        favoriteDataView.listenChanges {isChecked ->
-            viewmodel.changeDataSource(isChecked)
+        favoriteDataView.linkWith(viewModel)
+        viewModel.observe(this) { state ->
+            favoriteDataView.show(state)
         }
 
-        favoriteDataView.handleChangeButton {
-            viewmodel.changeComplimentStatus()
-        }
+        quoteViewModel = (application as ComplimentsApp).quoteViewModel
 
-        favoriteDataView.handleActionButton {
-            viewmodel.getCompliment()
-        }
-
-        viewmodel.observe(this) { state ->
-                favoriteDataView.show(state)
+        val quotesDataView = findViewById<FavoriteDataView>(R.id.favorite_quotes_view)
+        quotesDataView.linkWith(quoteViewModel)
+        quoteViewModel.observe(this) { state ->
+            quotesDataView.show(state)
         }
     }
-
-
 }

@@ -5,6 +5,8 @@
     <string name="no_connection">No connection</string>
     <string name="show_favorite_compliment">Show favorite compliment</string>
     <string name="favorite_icon">Favorite icon</string>
-    <string name="no_favorite_compliments">There are no favorite compliments\nAdd new one by pressing heart icon</string>
+    <string name="no_favorites">There are no favorites\nAdd new one by pressing heart icon</string>
     <string name="default_error_message">Error</string>
+    <string name="get_quote_button">Get quote</string>
+    <string name="show_favorite_quotes">Show favorite quote</string>
 </resources>
