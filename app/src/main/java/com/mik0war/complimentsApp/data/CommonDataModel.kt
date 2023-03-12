@@ -6,7 +6,7 @@ class CommonDataModel(
     private val cached: Boolean = false
 ) : ChangeCommonItem {
     override suspend fun change(cacheDataSource: ChangeStatus): CommonDataModel {
-        return cacheDataSource.addOrRemove(text, this)
+        return cacheDataSource.addOrRemove(id, this)
     }
 
     fun <T> map(mapper : CommonDataModelMapper<T>) : T{
