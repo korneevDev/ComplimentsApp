@@ -1,6 +1,5 @@
 package com.mik0war.complimentsApp.data
 
-import com.mik0war.complimentsApp.core.Mapper
 import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -13,18 +12,14 @@ class BaseRealmProvider() : RealmProvider {
     override fun provide(): Realm = Realm.getDefaultInstance()
 }
 
-open class ComplimentRealm : RealmObject(), Mapper<CommonDataModel> {
+open class ComplimentRealm : RealmObject() {
     @PrimaryKey
     var id = ""
     var text = ""
-
-    override fun to() = CommonDataModel(id, text, true)
 }
 
-open class QuoteRealm : RealmObject(), Mapper<CommonDataModel> {
+open class QuoteRealm : RealmObject() {
     @PrimaryKey
     var id = ""
     var text = ""
-
-    override fun to() = CommonDataModel(id, text, true)
 }

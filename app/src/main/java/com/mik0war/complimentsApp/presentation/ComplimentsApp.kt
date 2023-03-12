@@ -23,7 +23,8 @@ class ComplimentsApp : Application() {
 
         val realmProvider = BaseRealmProvider()
         val failureFactory = FailureFactory(BaseResourceManager(this))
-        val complimentCacheDataSource = ComplimentCacheDataSource(realmProvider, ComplimentRealmMapper())
+        val complimentCacheDataSource = ComplimentCacheDataSource(realmProvider,
+            ComplimentRealmMapper(), ComplimentRealmToCommonDataMapper())
         val complimentCloudDataSource = ComplimentCloudDataSource(retrofit.create(ComplimentService::class.java))
 
         val repository = BaseRepository(complimentCacheDataSource, complimentCloudDataSource, BaseCachedCommonItem())
@@ -33,7 +34,7 @@ class ComplimentsApp : Application() {
         baseViewModel = BaseViewModel(interactor, BaseCommunication())
 
         quoteViewModel = BaseViewModel(BaseInteractor(BaseRepository(
-            QuoteCacheDataSource(realmProvider, QuoteRealmMapper()),
+            QuoteCacheDataSource(realmProvider, QuoteRealmMapper(), QuoteRealmToCommonDataMapper()),
             QuoteCloudDataSource(retrofit.create(QuoteService::class.java)),
             BaseCachedCommonItem()
         ), failureFactory, CommonSuccessMapper())

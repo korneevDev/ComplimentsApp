@@ -46,7 +46,8 @@ interface ChangeStatus {
 interface CacheDataSource : DataFetcher, ChangeStatus
 abstract class BaseCacheDataSource<T : RealmObject>(
     private val realmProvider: RealmProvider,
-    private val mapper: CommonDataModelMapper<T>
+    private val mapper: CommonDataModelMapper<T>,
+    private val commonDataMapper: RealmToCommonDataMapper<T>
 ) : CacheDataSource {
     protected abstract val dbClass : Class<T>
     override suspend fun getData(): CommonDataModel {
@@ -55,7 +56,7 @@ abstract class BaseCacheDataSource<T : RealmObject>(
             if(compliments.isEmpty())
                 throw NoFavorites()
             else
-                return (compliments.random() as Mapper<CommonDataModel>).to()
+                return commonDataMapper.map(compliments.random())
         }
     }
     override suspend fun addOrRemove(id: String, model: CommonDataModel): CommonDataModel =
@@ -79,12 +80,16 @@ abstract class BaseCacheDataSource<T : RealmObject>(
         }
 }
 
-class ComplimentCacheDataSource( realmProvider: RealmProvider, mapper: ComplimentRealmMapper) :
-    BaseCacheDataSource<ComplimentRealm>(realmProvider, mapper) {
+class ComplimentCacheDataSource(realmProvider: RealmProvider,
+                                mapper: ComplimentRealmMapper,
+                                commonDataMapper: ComplimentRealmToCommonDataMapper) :
+    BaseCacheDataSource<ComplimentRealm>(realmProvider, mapper, commonDataMapper) {
     override val dbClass = ComplimentRealm::class.java
 }
 
-class QuoteCacheDataSource( realmProvider: RealmProvider, mapper: QuoteRealmMapper) :
-    BaseCacheDataSource<QuoteRealm>(realmProvider, mapper) {
+class QuoteCacheDataSource(realmProvider: RealmProvider,
+                           mapper: QuoteRealmMapper,
+                           commonMapper: QuoteRealmToCommonDataMapper) :
+    BaseCacheDataSource<QuoteRealm>(realmProvider, mapper, commonMapper) {
     override val dbClass = QuoteRealm::class.java
 }
