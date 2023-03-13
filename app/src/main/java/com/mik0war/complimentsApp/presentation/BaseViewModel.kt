@@ -29,6 +29,7 @@ class BaseViewModel(
         viewModelScope.launch(dispatcher) {
             if(communication.isState(State.INITIAL))
                 interactor.changeFavorites().to().getData(communication)
+                communication.showDataList(interactor.getItemList().map{it.to()})
             }
     }
 
