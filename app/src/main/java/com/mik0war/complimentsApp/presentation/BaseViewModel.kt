@@ -1,5 +1,6 @@
 package com.mik0war.complimentsApp.presentation
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.*
 import com.mik0war.complimentsApp.core.presentation.CommonViewModel
 import com.mik0war.complimentsApp.core.domain.CommonInteractor
@@ -25,12 +26,21 @@ class BaseViewModel(
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun changeItemStatus() {
         viewModelScope.launch(dispatcher) {
             if(communication.isState(State.INITIAL))
                 interactor.changeFavorites().to().getData(communication)
                 communication.showDataList(interactor.getItemList().map{it.to()})
             }
+    }
+
+    override fun changeItemStatus(id: String) : Int {
+        val position = communication.removeItem(id)
+        viewModelScope.launch(dispatcher) {
+            interactor.removeItem(id)
+        }
+        return position
     }
 
     override fun changeDataSource(isCached: Boolean) {

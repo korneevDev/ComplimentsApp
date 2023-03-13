@@ -36,4 +36,8 @@ class BaseInteractor(
     override fun getFavoriteItems(flag: Boolean) {
         repository.chooseDataSource(flag)
     }
+
+    override suspend fun removeItem(id: String) {
+        repository.removeItem(id)
+    }
 }

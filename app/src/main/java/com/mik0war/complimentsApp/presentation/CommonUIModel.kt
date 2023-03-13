@@ -3,14 +3,20 @@ package com.mik0war.complimentsApp.presentation
 import androidx.annotation.DrawableRes
 import com.mik0war.complimentsApp.R
 import com.mik0war.complimentsApp.core.presentation.Communication
+import com.mik0war.complimentsApp.core.presentation.FavoriteItemClickListener
 import com.mik0war.complimentsApp.core.presentation.ShowText
 
 class BaseCommonUIModel(text: String) : CommonUIModel(text) {
     override fun getIconResId(): Int = R.drawable.favorite_empty
 }
 
-class FavoriteCommonUIModel(text: String) : CommonUIModel(text) {
+class FavoriteCommonUIModel(private val id: String, text: String) : CommonUIModel(text) {
     override fun getIconResId(): Int = R.drawable.favorite_fill
+    override fun change(listener: FavoriteItemClickListener) {
+        listener.change(id)
+    }
+
+    override fun matches(id: String): Boolean = this.id == id
 }
 
 class FailedCommonUIModel(text: String) : CommonUIModel(text) {
@@ -33,4 +39,7 @@ abstract class CommonUIModel (
     }
 
     fun map(showText: ShowText) = showText.show(text)
+
+    open fun change(listener: FavoriteItemClickListener) = Unit
+    open fun matches(id: String) : Boolean = false
 }

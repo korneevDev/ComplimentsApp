@@ -54,4 +54,12 @@ abstract class BaseCacheDataSource<T : RealmObject>(
                 }
             }
         }
+
+    override suspend fun removeItem(id: String) = withContext(Dispatchers.IO) {
+        realmProvider.provide().use {
+            it.executeTransaction{transaction ->
+                transaction.where(dbClass).equalTo("id", id).findFirst()?.deleteFromRealm()
+            }
+        }
+    }
 }

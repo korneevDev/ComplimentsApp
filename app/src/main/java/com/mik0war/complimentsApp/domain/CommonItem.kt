@@ -9,12 +9,13 @@ import com.mik0war.complimentsApp.core.presentation.Failure
 
 sealed class CommonItem  : Mapper<CommonUIModel> {
     class Success(
+        private val id : String,
         private val text : String,
         private val isFavorite : Boolean
     ) : CommonItem() {
         override fun to(): CommonUIModel {
             return if (isFavorite)
-                FavoriteCommonUIModel(text)
+                FavoriteCommonUIModel(id, text)
             else
                 BaseCommonUIModel(text)
         }

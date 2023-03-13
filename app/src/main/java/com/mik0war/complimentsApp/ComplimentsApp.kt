@@ -1,6 +1,7 @@
 package com.mik0war.complimentsApp
 
 import android.app.Application
+import com.mik0war.complimentsApp.core.presentation.CommonCommunication
 
 import com.mik0war.complimentsApp.data.BaseRepository
 import com.mik0war.complimentsApp.data.CommonSuccessMapper
@@ -23,7 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ComplimentsApp : Application() {
 
     lateinit var baseViewModel : BaseViewModel
-    lateinit var quoteViewModel: BaseViewModel
+    lateinit var quoteViewModel : BaseViewModel
+    lateinit var complimentCommunication : CommonCommunication
 
     override fun onCreate() {
         super.onCreate()
@@ -49,8 +51,8 @@ class ComplimentsApp : Application() {
         val interactor = BaseInteractor(repository, failureFactory,
             CommonSuccessMapper()
         )
-
-        baseViewModel = BaseViewModel(interactor, BaseCommunication())
+        complimentCommunication = BaseCommunication()
+        baseViewModel = BaseViewModel(interactor, complimentCommunication)
 
         quoteViewModel = BaseViewModel(
             BaseInteractor(

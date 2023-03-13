@@ -5,6 +5,6 @@ import com.mik0war.complimentsApp.domain.CommonItem
 
 class CommonSuccessMapper : CommonDataModelMapper<CommonItem.Success> {
     override fun map(id: String, text: String, isCached: Boolean) =
-        CommonItem.Success(text, isCached)
+        CommonItem.Success(id, text, isCached)
 }
 

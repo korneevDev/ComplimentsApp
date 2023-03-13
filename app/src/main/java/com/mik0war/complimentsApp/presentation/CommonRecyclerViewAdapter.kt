@@ -2,28 +2,28 @@ package com.mik0war.complimentsApp.presentation
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mik0war.complimentsApp.R
+import com.mik0war.complimentsApp.core.presentation.CommonCommunication
+import com.mik0war.complimentsApp.core.presentation.FavoriteItemClickListener
 
-class CommonRecyclerViewAdapter : RecyclerView.Adapter<CommonRecyclerViewAdapter.CommonDataViewHolder>() {
-    private val list = ArrayList<CommonUIModel>()
+class CommonRecyclerViewAdapter(
+    private val listener: FavoriteItemClickListener,
+    private val communication: CommonCommunication
+    ) : RecyclerView.Adapter<CommonDataViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
-    fun show(data : List<CommonUIModel>){
-        list.clear()
-        list.addAll(data)
+    fun update(){
         notifyDataSetChanged()
     }
 
-    open inner class CommonDataViewHolder(view : View) : RecyclerView.ViewHolder(view){
-        private val textView = itemView.findViewById<CustomTextView>(R.id.commonDataTextView)
-
-        fun bind(item : CommonUIModel) = item.map(textView)
+    fun update(pair: Pair<Boolean, Int>){
+        if(pair.first)
+            notifyItemInserted(pair.second)
+        else
+            notifyItemRemoved(pair.second)
     }
-
-    inner class EmptyDataViewHolder(view: View) : CommonDataViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonDataViewHolder {
         val emptyList = viewType == 0
@@ -31,18 +31,17 @@ class CommonRecyclerViewAdapter : RecyclerView.Adapter<CommonRecyclerViewAdapter
             if (emptyList)
                 R.layout.empty_data_item
             else R.layout.common_data_item,
-
             parent, false)
-        return if (!emptyList) CommonDataViewHolder(view) else EmptyDataViewHolder(view)
+        return if (!emptyList) CommonDataViewHolder.Base(listener, view) else CommonDataViewHolder.Empty(view)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = communication.getList().size
 
     override fun onBindViewHolder(holder: CommonDataViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(communication.getList()[position])
     }
 
-    override fun getItemViewType(position: Int): Int = when(list[position]){
+    override fun getItemViewType(position: Int): Int = when(communication.getList()[position]){
         is FailedCommonUIModel -> 0
         else -> 1
     }

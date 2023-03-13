@@ -10,4 +10,6 @@
     <string name="default_error_message">Ошибка</string>
     <string name="get_quote_button">Новая цитата</string>
     <string name="show_favorite_quotes">Показать избранную цитату</string>
+    <string name="remove_from_favorites_question">Удалить из избранного?</string>
+    <string name="remove_from_favorites_answer">Да</string>
 </resources>

@@ -9,4 +9,6 @@
     <string name="default_error_message">Error</string>
     <string name="get_quote_button">Get quote</string>
     <string name="show_favorite_quotes">Show favorite quote</string>
+    <string name="remove_from_favorites_question">Remove from favorites?</string>
+    <string name="remove_from_favorites_answer">Yes</string>
 </resources>

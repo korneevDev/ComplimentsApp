@@ -7,5 +7,6 @@ interface Repository {
     suspend fun getCommonItemList() : List<CommonDataModel>
     suspend fun changeStatus() : CommonDataModel
     fun chooseDataSource(isCache : Boolean)
+    suspend fun removeItem(id: String)
 }
 
