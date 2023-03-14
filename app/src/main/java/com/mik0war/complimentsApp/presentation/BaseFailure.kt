@@ -17,8 +17,8 @@ class NoCachedData(private val resourceManager: ResourceManager) : Failure {
     override fun getErrorMessage(): String = resourceManager.getString(R.string.no_favorites)
 }
 
-class GenericError(private val resourceManager: ResourceManager) : Failure {
-    override fun getErrorMessage(): String = resourceManager.getString(R.string.default_error_message)
+class GenericError(private val message: String) : Failure {
+    override fun getErrorMessage(): String = message
 }
 
 

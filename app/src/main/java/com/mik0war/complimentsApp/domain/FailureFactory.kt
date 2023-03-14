@@ -17,7 +17,7 @@ class FailureFactory(private val resourceManager: ResourceManager) : FailureHand
             is NoFavorites -> NoCachedData(resourceManager)
             is NoConnectionException -> NoConnection(resourceManager)
             is ServiceUnavailableException -> ServiceUnavailable(resourceManager)
-            else -> GenericError(resourceManager)
+            else -> GenericError(e.message ?: "")
         }
     }
 

@@ -13,6 +13,8 @@ class CommonDataModel(
         return cacheDataSource.addOrRemove(id, this)
     }
 
+    override fun checkIsCached(id: String) = id == this.id
+
     fun <T> map(mapper : CommonDataModelMapper<T>) : T{
         return mapper.map(id, text, cached)
     }

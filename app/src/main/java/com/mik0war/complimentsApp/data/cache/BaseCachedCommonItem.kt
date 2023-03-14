@@ -17,6 +17,8 @@ class BaseCachedCommonItem : CachedCommonItem {
         cached = ChangeCommonItem.Empty()
     }
 
+    override fun checkIsCached(id: String) = cached.checkIsCached(id)
+
     override suspend fun change(cacheDataSource: ChangeStatus): CommonDataModel {
         return cached.change(cacheDataSource)
     }

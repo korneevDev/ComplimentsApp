@@ -41,4 +41,6 @@ class BaseRepository(
     override suspend fun removeItem(id: String) {
         cacheDataSource.removeItem(id)
     }
+
+    override suspend fun checkIsCached(id: String) = cachedCommonItem.checkIsCached(id)
 }

@@ -9,4 +9,5 @@ interface CommonInteractor {
     fun getFavoriteItems(flag: Boolean)
 
     suspend fun removeItem(id: String)
+    suspend fun checkId(id: String) : Boolean
 }

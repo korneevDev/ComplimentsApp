@@ -1,11 +1,16 @@
 package com.mik0war.complimentsApp.presentation
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.*
-import com.mik0war.complimentsApp.core.presentation.CommonViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mik0war.complimentsApp.core.domain.CommonInteractor
 import com.mik0war.complimentsApp.core.presentation.CommonCommunication
-import kotlinx.coroutines.*
+import com.mik0war.complimentsApp.core.presentation.CommonViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class BaseViewModel(
     private val interactor: CommonInteractor,
@@ -31,14 +36,18 @@ class BaseViewModel(
         viewModelScope.launch(dispatcher) {
             if(communication.isState(State.INITIAL))
                 interactor.changeFavorites().to().getData(communication)
-                communication.showDataList(interactor.getItemList().map{it.to()})
+                getItemList()
             }
     }
 
     override fun changeItemStatus(id: String){
         viewModelScope.launch(dispatcher) {
-            interactor.removeItem(id)
-            communication.showDataList(interactor.getItemList().map{it.to()})
+            if(interactor.checkId(id))
+                changeItemStatus()
+            else {
+                interactor.removeItem(id)
+                getItemList()
+            }
         }
     }
 

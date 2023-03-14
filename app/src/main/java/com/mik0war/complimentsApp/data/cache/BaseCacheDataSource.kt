@@ -40,7 +40,6 @@ abstract class BaseCacheDataSource<T : RealmObject>(
             realmProvider.provide().use {
                 val curItem =
                     it.where(dbClass).equalTo("id", id).findFirst()
-
                 return@withContext if (curItem == null) {
                     it.executeTransaction { transaction ->
                         transaction.insert(model.map(mapper))

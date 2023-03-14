@@ -8,5 +8,6 @@ interface Repository {
     suspend fun changeStatus() : CommonDataModel
     fun chooseDataSource(isCache : Boolean)
     suspend fun removeItem(id: String)
+    suspend fun checkIsCached(id: String) : Boolean
 }
 

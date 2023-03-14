@@ -40,4 +40,6 @@ class BaseInteractor(
     override suspend fun removeItem(id: String) {
         repository.removeItem(id)
     }
+
+    override suspend fun checkId(id: String) = repository.checkIsCached(id)
 }
