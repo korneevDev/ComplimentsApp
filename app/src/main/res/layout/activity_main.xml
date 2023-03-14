@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.viewpager2.widget.ViewPager2 xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/view_pager"
     tools:context=".presentation.MainActivity"
-    android:orientation="vertical"
-    android:gravity="center">
-
-    <com.mik0war.complimentsApp.presentation.FavoriteDataView
-        android:id="@+id/favorite_data_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:buttonText="@string/get_button"
-        custom:checkBoxText="@string/show_favorite_compliment"/>
-
-    <com.mik0war.complimentsApp.presentation.FavoriteDataView
-        android:id="@+id/favorite_quotes_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:buttonText="@string/get_quote_button"
-        custom:checkBoxText="@string/show_favorite_quotes"/>
-</LinearLayout>
+    android:orientation="horizontal">
+</androidx.viewpager2.widget.ViewPager2>

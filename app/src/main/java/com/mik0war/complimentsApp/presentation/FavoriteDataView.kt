@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.CheckBox
 import android.widget.LinearLayout
+import androidx.annotation.StringRes
 import com.mik0war.complimentsApp.R
 import com.mik0war.complimentsApp.core.presentation.CommonViewModel
 
@@ -70,6 +71,9 @@ class FavoriteDataView : LinearLayout {
             commonViewModel.getItem()
         }
     }
+
+    fun checkBoxText(@StringRes resId: Int) = checkBox.setText(resId)
+    fun actionButtonText(@StringRes resId: Int) = button.setText(resId)
 
     fun show(state : State) = state.show(progressBar, button, textView, favoriteIcon)
 }

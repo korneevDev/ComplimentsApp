@@ -22,9 +22,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ComplimentsApp : Application() {
-
-    lateinit var baseViewModel : BaseViewModel
     lateinit var quoteViewModel : BaseViewModel
+    lateinit var quoteCommunication : CommonCommunication
+
+    lateinit var complimentViewModel : BaseViewModel
     lateinit var complimentCommunication : CommonCommunication
 
     override fun onCreate() {
@@ -38,22 +39,24 @@ class ComplimentsApp : Application() {
 
         val realmProvider = BaseRealmProvider()
         val failureFactory = FailureFactory(BaseResourceManager(this))
-        val complimentCacheDataSource = ComplimentCacheDataSource(realmProvider,
-            ComplimentRealmMapper(), ComplimentRealmToCommonDataMapper()
-        )
-        val complimentCloudDataSource = ComplimentCloudDataSource(retrofit.create(ComplimentService::class.java))
 
-        val repository = BaseRepository(
-            complimentCacheDataSource,
-            complimentCloudDataSource,
-            BaseCachedCommonItem()
-        )
-        val interactor = BaseInteractor(repository, failureFactory,
-            CommonSuccessMapper()
-        )
         complimentCommunication = BaseCommunication()
-        baseViewModel = BaseViewModel(interactor, complimentCommunication)
+        complimentViewModel = BaseViewModel(
+            BaseInteractor(
+                BaseRepository(
+                    ComplimentCacheDataSource(
+                        realmProvider,
+                        ComplimentRealmMapper(),
+                        ComplimentRealmToCommonDataMapper()
+                    ),
+                    ComplimentCloudDataSource(retrofit.create(ComplimentService::class.java)),
+                    BaseCachedCommonItem()
+                ), failureFactory, CommonSuccessMapper()
+            ),
+            complimentCommunication
+        )
 
+        quoteCommunication = BaseCommunication()
         quoteViewModel = BaseViewModel(
             BaseInteractor(
                 BaseRepository(
@@ -66,7 +69,7 @@ class ComplimentsApp : Application() {
                     BaseCachedCommonItem()
                 ), failureFactory, CommonSuccessMapper()
         )
-        , BaseCommunication()
+        , quoteCommunication
         )
     }
 }
