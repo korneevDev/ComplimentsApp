@@ -35,12 +35,11 @@ class BaseViewModel(
             }
     }
 
-    override fun changeItemStatus(id: String) : Int {
-        val position = communication.removeItem(id)
+    override fun changeItemStatus(id: String){
         viewModelScope.launch(dispatcher) {
             interactor.removeItem(id)
+            communication.showDataList(interactor.getItemList().map{it.to()})
         }
-        return position
     }
 
     override fun changeDataSource(isCached: Boolean) {

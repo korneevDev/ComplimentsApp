@@ -17,6 +17,9 @@ class FavoriteCommonUIModel(private val id: String, text: String) : CommonUIMode
     }
 
     override fun matches(id: String): Boolean = this.id == id
+    override fun same(commonUIModel: CommonUIModel): Boolean {
+        return commonUIModel is FailedCommonUIModel && commonUIModel.matches(this.id)
+    }
 }
 
 class FailedCommonUIModel(text: String) : CommonUIModel(text) {
@@ -42,4 +45,5 @@ abstract class CommonUIModel (
 
     open fun change(listener: FavoriteItemClickListener) = Unit
     open fun matches(id: String) : Boolean = false
+    open fun same(commonUIModel: CommonUIModel) = false
 }

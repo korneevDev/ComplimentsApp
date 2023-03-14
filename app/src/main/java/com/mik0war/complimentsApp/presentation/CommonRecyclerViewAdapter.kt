@@ -15,14 +15,8 @@ class CommonRecyclerViewAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun update(){
-        notifyDataSetChanged()
-    }
-
-    fun update(pair: Pair<Boolean, Int>){
-        if(pair.first)
-            notifyItemInserted(pair.second)
-        else
-            notifyItemRemoved(pair.second)
+        val diffResult = communication.getDiffResult()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonDataViewHolder {

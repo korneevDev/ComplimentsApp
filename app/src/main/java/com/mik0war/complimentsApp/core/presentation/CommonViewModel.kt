@@ -9,7 +9,7 @@ interface CommonViewModel{
     fun getItem()
     fun getItemList()
     fun changeItemStatus()
-    fun changeItemStatus(id: String) : Int
+    fun changeItemStatus(id: String)
     fun changeDataSource(isCached: Boolean)
     fun observe(owner: LifecycleOwner, observer: Observer<State>)
     fun observeList(owner: LifecycleOwner, observer: Observer<List<CommonUIModel>>)

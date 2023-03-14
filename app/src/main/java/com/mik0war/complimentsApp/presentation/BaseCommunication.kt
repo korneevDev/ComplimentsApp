@@ -3,31 +3,25 @@ package com.mik0war.complimentsApp.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
 import com.mik0war.complimentsApp.core.presentation.CommonCommunication
 
 class BaseCommunication : CommonCommunication {
     private val liveData = MutableLiveData<State>()
     private val listLiveData = MutableLiveData<ArrayList<CommonUIModel>>()
+    private lateinit var diffResult: DiffUtil.DiffResult
 
     override fun showState(state: State) {
         liveData.value = state
     }
 
     override fun showDataList(list: List<CommonUIModel>) {
+        val callback = CommonDiffUtilCallback(listLiveData.value ?: emptyList(), list)
+        diffResult = DiffUtil.calculateDiff(callback)
         listLiveData.value = ArrayList(list)
     }
 
-    override fun removeItem(id: String) : Int {
-        val position = listLiveData.value?.indexOf(
-            listLiveData.value?.find {
-                it.matches(id)
-            }) ?: -1
-        listLiveData.value?.removeIf{
-            it.matches(id)
-        }
-
-        return position
-    }
+    override fun getDiffResult(): DiffUtil.DiffResult = diffResult
 
     override fun observe(owner: LifecycleOwner, observer: Observer<State>) {
         liveData.observe(owner, observer)

@@ -35,8 +35,7 @@ class ComplimentActivity : AppCompatActivity() {
                         R.string.remove_from_favorites_question,
                         Snackbar.LENGTH_SHORT
                     ).setAction(R.string.remove_from_favorites_answer) {
-                        val position = viewModel.changeItemStatus(id)
-                        adapter.update(Pair(false, position))
+                        viewModel.changeItemStatus(id)
                     }.show()
             }
         }, communication)
