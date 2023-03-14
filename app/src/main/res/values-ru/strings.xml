@@ -12,4 +12,6 @@
     <string name="show_favorite_quotes">Показать избранную цитату</string>
     <string name="remove_from_favorites_question">Удалить из избранного?</string>
     <string name="remove_from_favorites_answer">Да</string>
+    <string name="compliments">Комплименты</string>
+    <string name="quotes">Цитаты</string>
 </resources>

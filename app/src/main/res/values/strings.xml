@@ -11,4 +11,6 @@
     <string name="show_favorite_quotes">Show favorite quote</string>
     <string name="remove_from_favorites_question">Remove from favorites?</string>
     <string name="remove_from_favorites_answer">Yes</string>
+    <string name="compliments">Compliments</string>
+    <string name="quotes">Quotes</string>
 </resources>
