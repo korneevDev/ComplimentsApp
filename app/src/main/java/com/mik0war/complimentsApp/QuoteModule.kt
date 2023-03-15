@@ -1,27 +1,29 @@
-package com.mik0war.complimentsApp.presentation
+package com.mik0war.complimentsApp
 
 import com.mik0war.complimentsApp.core.domain.FailureHandler
 import com.mik0war.complimentsApp.data.BaseRepository
 import com.mik0war.complimentsApp.data.CommonSuccessMapper
 import com.mik0war.complimentsApp.data.cache.BaseCachedCommonItem
 import com.mik0war.complimentsApp.data.cache.BaseRealmProvider
-import com.mik0war.complimentsApp.data.cache.ComplimentCacheDataSource
-import com.mik0war.complimentsApp.data.cache.ComplimentRealmToCommonDataMapper
-import com.mik0war.complimentsApp.data.cloud.ComplimentCloudDataSource
-import com.mik0war.complimentsApp.data.cloud.ComplimentService
-import com.mik0war.complimentsApp.data.mapper.ComplimentRealmMapper
+import com.mik0war.complimentsApp.data.cache.QuoteCacheDataSource
+import com.mik0war.complimentsApp.data.cache.QuoteRealmToCommonDataMapper
+import com.mik0war.complimentsApp.data.cloud.QuoteCloudDataSource
+import com.mik0war.complimentsApp.data.cloud.QuoteService
+import com.mik0war.complimentsApp.data.mapper.QuoteRealmMapper
 import com.mik0war.complimentsApp.domain.BaseInteractor
+import com.mik0war.complimentsApp.presentation.BaseCommunication
+import com.mik0war.complimentsApp.presentation.QuoteViewMode
 import retrofit2.Retrofit
 
-class ComplimentModule(
+class QuoteModule (
     private val failureHandler: FailureHandler,
     private val realmProvider: BaseRealmProvider,
     private val retrofit: Retrofit
-) : BaseModule<ComplimentViewMode>(){
+) : BaseModule<QuoteViewMode>(){
     private var communication : BaseCommunication? = null
 
-    override fun getViewModel(): ComplimentViewMode {
-        return ComplimentViewMode(getInteractor(), getCommunication())
+    override fun getViewModel(): QuoteViewMode {
+        return QuoteViewMode(getInteractor(), getCommunication())
     }
 
     private fun getInteractor() =
@@ -31,9 +33,9 @@ class ComplimentModule(
         BaseRepository(getCloudDataSource(), getCacheDataSource(), BaseCachedCommonItem())
 
     private fun getCloudDataSource() =
-        ComplimentCacheDataSource(realmProvider, ComplimentRealmMapper(), ComplimentRealmToCommonDataMapper())
+        QuoteCacheDataSource(realmProvider, QuoteRealmMapper(), QuoteRealmToCommonDataMapper())
 
-    private fun getCacheDataSource() = ComplimentCloudDataSource(retrofit.create(ComplimentService::class.java))
+    private fun getCacheDataSource() = QuoteCloudDataSource(retrofit.create(QuoteService::class.java))
 
     override fun getCommunication(): BaseCommunication =
         communication ?: BaseCommunication().also { communication = it }

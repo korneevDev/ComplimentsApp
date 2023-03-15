@@ -1,8 +1,10 @@
-package com.mik0war.complimentsApp.presentation
+package com.mik0war.complimentsApp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.mik0war.complimentsApp.presentation.ComplimentViewMode
+import com.mik0war.complimentsApp.presentation.QuoteViewMode
 
 class ViewModelsFactory(
     private val complimentModule: ComplimentModule,

@@ -5,9 +5,6 @@ import com.mik0war.complimentsApp.core.domain.FailureHandler
 import com.mik0war.complimentsApp.data.cache.BaseRealmProvider
 import com.mik0war.complimentsApp.domain.FailureFactory
 import com.mik0war.complimentsApp.presentation.BaseResourceManager
-import com.mik0war.complimentsApp.presentation.ComplimentModule
-import com.mik0war.complimentsApp.presentation.QuoteModule
-import com.mik0war.complimentsApp.presentation.ViewModelsFactory
 import io.realm.Realm
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
