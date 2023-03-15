@@ -6,22 +6,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.mik0war.complimentsApp.ComplimentsApp
 import com.mik0war.complimentsApp.R
-import com.mik0war.complimentsApp.core.presentation.CommonCommunication
 import com.mik0war.complimentsApp.core.presentation.FavoriteItemClickListener
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<T : BaseViewModel> : Fragment() {
+    private lateinit var viewModel: BaseViewModel
+    fun tag() : String = javaClass.simpleName
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.common_view, container, false)
 
-    protected abstract fun getViewModel(app: ComplimentsApp): BaseViewModel
-    protected abstract fun getCommunication(app: ComplimentsApp): CommonCommunication
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(
+            this,
+            (requireActivity().application as ComplimentsApp).factory
+        )[getViewModelClass()]
+    }
+
+    protected abstract fun getViewModelClass(): Class<T>
 
     @StringRes
     protected abstract fun checkBoxText() : Int
@@ -31,9 +40,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val application = requireActivity().application as ComplimentsApp
-        val viewModel = getViewModel(application)
-        val communication = getCommunication(application)
+        val communication = viewModel.getCommunication()
 
         val favoriteDataView = view.findViewById<FavoriteDataView>(R.id.favorite_data_view)
         favoriteDataView.linkWith(viewModel)

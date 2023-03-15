@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class BaseViewModel(
+abstract class BaseViewModel(
     private val interactor: CommonInteractor,
     private val communication: CommonCommunication,
     private val dispatcher : CoroutineDispatcher = Dispatchers.Main
@@ -62,4 +62,12 @@ class BaseViewModel(
     override fun observeList(owner: LifecycleOwner, observer: Observer<List<CommonUIModel>>) {
         communication.observeList(owner, observer)
     }
+
+    fun getCommunication() = communication
 }
+
+class ComplimentViewMode(interactor: CommonInteractor, communication: CommonCommunication)
+    : BaseViewModel(interactor, communication)
+
+class QuoteViewMode(interactor: CommonInteractor, communication: CommonCommunication)
+    : BaseViewModel(interactor, communication)
