@@ -40,7 +40,6 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val communication = viewModel.getCommunication()
 
         val favoriteDataView = view.findViewById<FavoriteDataView>(R.id.favorite_data_view)
         favoriteDataView.linkWith(viewModel)
@@ -63,7 +62,7 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
                     viewModel.changeItemStatus(id)
                 }.show()
             }
-        }, communication)
+        }, viewModel)
         recyclerView.adapter = adapter
 
         viewModel.observeList(this) {

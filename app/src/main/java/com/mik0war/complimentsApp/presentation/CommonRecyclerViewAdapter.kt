@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mik0war.complimentsApp.R
-import com.mik0war.complimentsApp.core.presentation.CommonCommunication
 import com.mik0war.complimentsApp.core.presentation.FavoriteItemClickListener
+import com.mik0war.complimentsApp.core.presentation.ListGetter
 
 class CommonRecyclerViewAdapter(
     private val listener: FavoriteItemClickListener,
-    private val communication: CommonCommunication
+    private val communication: ListGetter
     ) : RecyclerView.Adapter<CommonDataViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")

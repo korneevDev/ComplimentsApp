@@ -5,9 +5,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.DiffUtil
 import com.mik0war.complimentsApp.core.domain.CommonInteractor
 import com.mik0war.complimentsApp.core.presentation.CommonCommunication
 import com.mik0war.complimentsApp.core.presentation.CommonViewModel
+import com.mik0war.complimentsApp.core.presentation.ListGetter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +18,7 @@ abstract class BaseViewModel(
     private val interactor: CommonInteractor,
     private val communication: CommonCommunication,
     private val dispatcher : CoroutineDispatcher = Dispatchers.Main
-) : ViewModel(), CommonViewModel {
+) : ViewModel(), CommonViewModel, ListGetter {
     override fun getItem() {
         viewModelScope.launch(dispatcher) {
             communication.showState(State.Progress)
@@ -63,7 +65,9 @@ abstract class BaseViewModel(
         communication.observeList(owner, observer)
     }
 
-    fun getCommunication() = communication
+    override fun getList(): List<CommonUIModel> = communication.getList()
+
+    override fun getDiffResult(): DiffUtil.DiffResult = communication.getDiffResult()
 }
 
 class ComplimentViewMode(interactor: CommonInteractor, communication: CommonCommunication)
