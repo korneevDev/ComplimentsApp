@@ -1,7 +1,9 @@
 package com.mik0war.complimentsApp
 
 import android.app.Application
-import com.mik0war.complimentsApp.core.domain.FailureHandler
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.mik0war.complimentsApp.data.cache.BaseRealmProvider
 import com.mik0war.complimentsApp.domain.FailureFactory
 import com.mik0war.complimentsApp.presentation.BaseResourceManager
@@ -10,27 +12,30 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ComplimentsApp : Application() {
-    val factory by lazy {
+    private val factory by lazy {
         ViewModelsFactory(
-            ComplimentModule(failureHandler, realmProvider, retrofit),
-            QuoteModule(failureHandler, realmProvider, retrofit)
+            ComplimentModule(coreModule),
+            QuoteModule(coreModule)
         )
     }
 
-    private lateinit var failureHandler: FailureHandler
-    private lateinit var realmProvider: BaseRealmProvider
-    private lateinit var retrofit: Retrofit
+    private lateinit var coreModule: CommonInstancesProvider
 
     override fun onCreate() {
         super.onCreate()
-        Realm.init(this)
 
-        retrofit = Retrofit.Builder()
+        val failureHandler = FailureFactory(BaseResourceManager(this))
+        val realmProvider = BaseRealmProvider()
+
+        Realm.init(this)
+        val retrofit = Retrofit.Builder()
             .baseUrl("https://www.google.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        realmProvider = BaseRealmProvider()
-        failureHandler = FailureFactory(BaseResourceManager(this))
+        coreModule = CommonInstancesProvider.Base(failureHandler, realmProvider, retrofit)
     }
+
+    fun <T: ViewModel> get(modelClass: Class<T>, owner: ViewModelStoreOwner) : T =
+        ViewModelProvider(owner, factory)[modelClass]
 }

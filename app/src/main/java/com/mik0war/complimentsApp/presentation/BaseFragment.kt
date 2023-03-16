@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.mik0war.complimentsApp.ComplimentsApp
@@ -24,10 +23,8 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            (requireActivity().application as ComplimentsApp).factory
-        )[getViewModelClass()]
+        viewModel = (requireActivity().application as ComplimentsApp)
+            .get(getViewModelClass(), this)
     }
 
     protected abstract fun getViewModelClass(): Class<T>

@@ -4,6 +4,8 @@ import com.mik0war.complimentsApp.presentation.BaseCommunication
 import com.mik0war.complimentsApp.presentation.BaseViewModel
 
 abstract class BaseModule<T : BaseViewModel> {
+    private var communication : BaseCommunication? = null
     abstract fun getViewModel() : T
-    abstract fun getCommunication() : BaseCommunication
+    protected fun getCommunication() : BaseCommunication =
+        communication ?: BaseCommunication().also { communication = it }
 }
