@@ -33,7 +33,7 @@ class ComplimentsApp : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        coreModule = CommonInstancesProvider.Base(failureHandler, realmProvider, retrofit)
+        coreModule = CommonInstancesProvider.Base(this, failureHandler, realmProvider, retrofit)
     }
 
     fun <T: ViewModel> get(modelClass: Class<T>, owner: ViewModelStoreOwner) : T =

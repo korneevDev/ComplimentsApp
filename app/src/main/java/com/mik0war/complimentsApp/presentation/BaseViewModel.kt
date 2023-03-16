@@ -68,6 +68,8 @@ abstract class BaseViewModel(
     override fun getList(): List<CommonUIModel> = communication.getList()
 
     override fun getDiffResult(): DiffUtil.DiffResult = communication.getDiffResult()
+    override fun loadIsFavoritesState() = interactor.loadIsFavorites(this.javaClass.simpleName)
+    override fun saveIsFavoritesState() = interactor.saveIsFavorites(this.javaClass.simpleName)
 }
 
 class ComplimentViewMode(interactor: CommonInteractor, communication: CommonCommunication)

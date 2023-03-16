@@ -62,6 +62,7 @@ class FavoriteDataView : LinearLayout {
         checkBox.setOnCheckedChangeListener{_, isChecked ->
             commonViewModel.changeDataSource(isChecked)
         }
+        checkBox.isChecked = commonViewModel.loadIsFavoritesState()
 
         favoriteIcon.setOnClickListener{
             commonViewModel.changeItemStatus()

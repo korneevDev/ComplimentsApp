@@ -3,6 +3,7 @@ package com.mik0war.complimentsApp
 import com.mik0war.complimentsApp.data.BaseRepository
 import com.mik0war.complimentsApp.data.CommonSuccessMapper
 import com.mik0war.complimentsApp.data.cache.BaseCachedCommonItem
+import com.mik0war.complimentsApp.data.cache.BasePersistentDataSource
 import com.mik0war.complimentsApp.data.cache.ComplimentCacheDataSource
 import com.mik0war.complimentsApp.data.cache.ComplimentRealmToCommonDataMapper
 import com.mik0war.complimentsApp.data.cloud.ComplimentCloudDataSource
@@ -24,6 +25,7 @@ class ComplimentModule(private val coreModule: CommonInstancesProvider) : BaseMo
                     ComplimentCloudDataSource(
                         coreModule.retrofitCreate(ComplimentService::class.java)
                     ),
+                    BasePersistentDataSource(coreModule.provideContext()),
                     BaseCachedCommonItem()
                 ),
                 coreModule.provideFailureHandler(),

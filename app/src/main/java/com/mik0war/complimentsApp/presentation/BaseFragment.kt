@@ -68,4 +68,9 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
 
         viewModel.getItemList()
     }
+
+    override fun onPause() {
+        viewModel.saveIsFavoritesState()
+        super.onPause()
+    }
 }

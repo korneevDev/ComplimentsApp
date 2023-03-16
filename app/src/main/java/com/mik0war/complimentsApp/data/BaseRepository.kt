@@ -5,14 +5,15 @@ import com.mik0war.complimentsApp.core.data.cloud.CloudDataSource
 import com.mik0war.complimentsApp.core.data.cache.CacheDataSource
 import com.mik0war.complimentsApp.core.data.DataFetcher
 import com.mik0war.complimentsApp.core.data.Repository
+import com.mik0war.complimentsApp.core.data.cache.PersistentDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class BaseRepository(
     private val cacheDataSource: CacheDataSource,
     private val cloudDataSource: CloudDataSource,
+    private val persistentDataSource: PersistentDataSource,
     private val cachedCommonItem: CachedCommonItem
-
 ) : Repository {
 
     private var currentDataSource : DataFetcher = cloudDataSource
@@ -43,4 +44,10 @@ class BaseRepository(
     }
 
     override suspend fun checkIsCached(id: String) = cachedCommonItem.checkIsCached(id)
+
+    override fun saveIsCachedState(name: String) {
+        persistentDataSource.save(currentDataSource == cacheDataSource, name)
+    }
+
+    override fun loadIsCachedState(name: String) = persistentDataSource.load(name)
 }

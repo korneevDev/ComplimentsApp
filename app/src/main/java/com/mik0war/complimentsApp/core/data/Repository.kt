@@ -9,5 +9,7 @@ interface Repository {
     fun chooseDataSource(isCache : Boolean)
     suspend fun removeItem(id: String)
     suspend fun checkIsCached(id: String) : Boolean
+    fun saveIsCachedState(name: String)
+    fun loadIsCachedState(name: String): Boolean
 }
 

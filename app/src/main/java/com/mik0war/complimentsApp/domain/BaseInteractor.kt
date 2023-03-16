@@ -42,4 +42,6 @@ class BaseInteractor(
     }
 
     override suspend fun checkId(id: String) = repository.checkIsCached(id)
+    override fun loadIsFavorites(name: String): Boolean = repository.loadIsCachedState(name)
+    override fun saveIsFavorites(name: String) = repository.saveIsCachedState(name)
 }

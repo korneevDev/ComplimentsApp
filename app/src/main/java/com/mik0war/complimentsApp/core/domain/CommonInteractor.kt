@@ -7,7 +7,8 @@ interface CommonInteractor {
     suspend fun getItemList() : List<CommonItem>
     suspend fun changeFavorites() : CommonItem
     fun getFavoriteItems(flag: Boolean)
-
     suspend fun removeItem(id: String)
     suspend fun checkId(id: String) : Boolean
+    fun loadIsFavorites(name: String): Boolean
+    fun saveIsFavorites(name: String)
 }

@@ -13,5 +13,6 @@ interface CommonViewModel{
     fun changeDataSource(isCached: Boolean)
     fun observe(owner: LifecycleOwner, observer: Observer<State>)
     fun observeList(owner: LifecycleOwner, observer: Observer<List<CommonUIModel>>)
-
+    fun loadIsFavoritesState(): Boolean
+    fun saveIsFavoritesState()
 }
