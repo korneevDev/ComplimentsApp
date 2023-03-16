@@ -1,14 +1,4 @@
 package com.mik0war.complimentsApp.core.domain
-
-import com.mik0war.complimentsApp.domain.CommonItem
-
-interface CommonInteractor {
-    suspend fun getItem() : CommonItem
-    suspend fun getItemList() : List<CommonItem>
-    suspend fun changeFavorites() : CommonItem
+interface CommonInteractor : SingleItemInteractor, ListItemInteractor, PersistentDataInteractor{
     fun getFavoriteItems(flag: Boolean)
-    suspend fun removeItem(id: String)
-    suspend fun checkId(id: String) : Boolean
-    fun loadIsFavorites(name: String): Boolean
-    fun saveIsFavorites(name: String)
 }

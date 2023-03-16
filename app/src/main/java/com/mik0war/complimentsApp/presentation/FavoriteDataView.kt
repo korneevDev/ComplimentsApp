@@ -8,7 +8,7 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.annotation.StringRes
 import com.mik0war.complimentsApp.R
-import com.mik0war.complimentsApp.core.presentation.CommonViewModel
+import com.mik0war.complimentsApp.core.presentation.viewmodel.CommonViewModel
 
 class FavoriteDataView : LinearLayout {
     private lateinit var checkBox : CheckBox
