@@ -1,20 +1,18 @@
 package com.mik0war.complimentsApp.data.cache
 
-import android.content.Context
-import android.content.SharedPreferences
 import com.mik0war.complimentsApp.core.data.cache.PersistentDataSource
+import com.mik0war.complimentsApp.core.data.cache.SharedPreferencesProvider
 
-class BasePersistentDataSource(private val context: Context) : PersistentDataSource {
-    private val sharedPreferences: SharedPreferences? = null
-
+class BasePersistentDataSource(private val sharedPreferencesProvider: SharedPreferencesProvider) : PersistentDataSource {
     override fun save(data: Boolean, name: String) {
-        getSharePreferences(name).edit().putBoolean(IS_FAVORITES_KEY, data).apply()
+        sharedPreferencesProvider.getSharedPreferences(name)
+            .edit()
+            .putBoolean(IS_FAVORITES_KEY, data)
+            .apply()
     }
 
-    override fun load(name: String): Boolean = getSharePreferences(name).getBoolean(IS_FAVORITES_KEY, false)
-
-    private fun getSharePreferences(name: String) = sharedPreferences ?: context.getSharedPreferences(
-        name, Context.MODE_PRIVATE)
+    override fun load(name: String): Boolean =
+        sharedPreferencesProvider.getSharedPreferences(name).getBoolean(IS_FAVORITES_KEY, false)
 
     private companion object{
         const val IS_FAVORITES_KEY = "IS_FAVORITES"
