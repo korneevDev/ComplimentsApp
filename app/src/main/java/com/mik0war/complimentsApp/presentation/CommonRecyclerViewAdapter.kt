@@ -1,6 +1,5 @@
 package com.mik0war.complimentsApp.presentation
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,6 @@ class CommonRecyclerViewAdapter(
     private val communication: ListGetter
     ) : RecyclerView.Adapter<CommonDataViewHolder>() {
 
-    @SuppressLint("NotifyDataSetChanged")
     fun update(){
         val diffResult = communication.getDiffResult()
         diffResult.dispatchUpdatesTo(this)

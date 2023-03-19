@@ -24,7 +24,7 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (requireActivity().application as ComplimentsApp)
-            .get(getViewModelClass(), this)
+            .get(getViewModelClass(), requireActivity())
     }
 
     protected abstract fun getViewModelClass(): Class<T>
