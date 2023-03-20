@@ -1,7 +1,8 @@
 # ComplimentsApp
-Android application which show random compliment using open API complimentr
+Test project: Android application which show random compliment or quotes using open API complimentr.
+Project was developed based on lectures of JohnySC
 
-#Principles
+## Principles
 
 - SOLID
 - DRY
@@ -9,8 +10,13 @@ Android application which show random compliment using open API complimentr
 - YAGNI
 - KISS
 
-#Technologies
+## Technologies
 
 - Realm
 - Retrofit 2
 - Coroutines
+
+## Tests
+
+### Unit tests
+- JUnit 5
