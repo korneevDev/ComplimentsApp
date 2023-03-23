@@ -1,5 +1,5 @@
 # ComplimentsApp
-Test project: Android application which show random compliment or quotes using open API complimentr.
+Test project: Android application which show random compliment or quote using open API complimentr and quotable.io.
 Project was developed based on lectures of JohnySC
 
 ## Principles
@@ -20,3 +20,6 @@ Project was developed based on lectures of JohnySC
 
 ### Unit tests
 - JUnit 5
+
+### UI tests
+- Espresso
