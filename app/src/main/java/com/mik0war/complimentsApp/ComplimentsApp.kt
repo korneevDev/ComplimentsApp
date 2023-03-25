@@ -7,15 +7,15 @@ import androidx.lifecycle.ViewModelStoreOwner
 import com.mik0war.complimentsApp.data.cache.BaseRealmProvider
 import com.mik0war.complimentsApp.domain.FailureFactory
 import com.mik0war.complimentsApp.presentation.BaseResourceManager
-import io.realm.Realm
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ComplimentsApp : Application() {
+    private val useMocks = false
     private val factory by lazy {
         ViewModelsFactory(
-            ComplimentModule(coreModule),
-            QuoteModule(coreModule)
+            ComplimentModule(coreModule, useMocks),
+            QuoteModule(coreModule, useMocks)
         )
     }
 
@@ -25,9 +25,8 @@ class ComplimentsApp : Application() {
         super.onCreate()
 
         val failureHandler = FailureFactory(BaseResourceManager(this))
-        val realmProvider = BaseRealmProvider()
+        val realmProvider = BaseRealmProvider(this, useMocks)
 
-        Realm.init(this)
         val retrofit = Retrofit.Builder()
             .baseUrl("https://www.google.com")
             .addConverterFactory(GsonConverterFactory.create())
