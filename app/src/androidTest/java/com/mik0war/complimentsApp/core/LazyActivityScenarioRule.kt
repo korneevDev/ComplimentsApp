@@ -1,4 +1,4 @@
-package com.mik0war.complimentsApp
+package com.mik0war.complimentsApp.core
 
 import android.app.Activity
 import android.content.Intent

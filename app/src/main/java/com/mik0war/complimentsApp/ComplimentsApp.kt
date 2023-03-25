@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ComplimentsApp : Application() {
-    private val useMocks = false
+    private val useMocks = true
     private val factory by lazy {
         ViewModelsFactory(
             ComplimentModule(coreModule, useMocks),
