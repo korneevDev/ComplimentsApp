@@ -43,6 +43,7 @@ sealed class State{
         ) {
             textView.show(text)
             imageButton.show(id)
+            imageButton.visibility(type != FAILED)
         }
     }
 

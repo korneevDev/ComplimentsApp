@@ -5,7 +5,9 @@ interface Show<T>{
 }
 interface ShowText : Show<String>
 interface ShowProgress : Show<Boolean>
-interface ShowImage : Show<Int>
+interface ShowImage : Show<Int>{
+    fun visibility(isVisible: Boolean)
+}
 interface EnableButton{
     fun enable(isEnable: Boolean)
 }

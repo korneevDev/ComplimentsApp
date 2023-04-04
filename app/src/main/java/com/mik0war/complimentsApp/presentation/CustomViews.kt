@@ -33,7 +33,7 @@ class CustomProgressBar : ProgressBar, ShowProgress {
     )
 
     override fun show(arg: Boolean) {
-        visibility = if(arg) View.VISIBLE else View.INVISIBLE
+        visibility = if (arg) View.VISIBLE else View.INVISIBLE
     }
 }
 
@@ -45,6 +45,10 @@ class CustomImageButton : androidx.appcompat.widget.AppCompatImageButton, ShowIm
         attrs,
         defStyleAttr
     )
+
+    override fun visibility(isVisible: Boolean) {
+        visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
 
     override fun show(arg: Int) {
         setImageResource(arg)
