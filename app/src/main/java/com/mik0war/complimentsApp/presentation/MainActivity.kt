@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
 import com.mik0war.complimentsApp.R
+import com.mik0war.complimentsApp.presentation.fragment.BaseFragment
+import com.mik0war.complimentsApp.presentation.fragment.ComplimentFragment
+import com.mik0war.complimentsApp.presentation.fragment.QuoteFragment
 
 class MainActivity : AppCompatActivity() {
 

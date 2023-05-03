@@ -1,6 +1,7 @@
-package com.mik0war.complimentsApp.presentation
+package com.mik0war.complimentsApp.presentation.recyclerView
 
 import androidx.recyclerview.widget.DiffUtil
+import com.mik0war.complimentsApp.presentation.CommonUIModel
 
 class CommonDiffUtilCallback(
     private val oldList: List<CommonUIModel>,

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import com.mik0war.complimentsApp.core.presentation.CommonCommunication
+import com.mik0war.complimentsApp.presentation.recyclerView.CommonDiffUtilCallback
 
 class BaseCommunication : CommonCommunication {
     private val liveData = MutableLiveData<State>()

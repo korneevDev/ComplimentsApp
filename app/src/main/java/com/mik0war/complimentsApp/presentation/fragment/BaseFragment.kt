@@ -1,4 +1,4 @@
-package com.mik0war.complimentsApp.presentation
+package com.mik0war.complimentsApp.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.mik0war.complimentsApp.ComplimentsApp
 import com.mik0war.complimentsApp.R
 import com.mik0war.complimentsApp.core.presentation.FavoriteItemClickListener
+import com.mik0war.complimentsApp.presentation.BaseViewModel
+import com.mik0war.complimentsApp.presentation.recyclerView.CommonRecyclerViewAdapter
+import com.mik0war.complimentsApp.presentation.FavoriteDataView
 
 abstract class BaseFragment<T : BaseViewModel> : Fragment() {
     private lateinit var viewModel: BaseViewModel

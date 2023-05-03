@@ -1,4 +1,4 @@
-package com.mik0war.complimentsApp.presentation
+package com.mik0war.complimentsApp.presentation.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mik0war.complimentsApp.R
 import com.mik0war.complimentsApp.core.presentation.FavoriteItemClickListener
 import com.mik0war.complimentsApp.core.presentation.ListGetter
+import com.mik0war.complimentsApp.presentation.FailedCommonUIModel
 
 class CommonRecyclerViewAdapter(
     private val listener: FavoriteItemClickListener,
@@ -24,7 +25,10 @@ class CommonRecyclerViewAdapter(
                 R.layout.empty_data_item
             else R.layout.common_data_item,
             parent, false)
-        return if (!emptyList) CommonDataViewHolder.Base(listener, view) else CommonDataViewHolder.Empty(view)
+        return if (!emptyList) CommonDataViewHolder.Base(
+            listener,
+            view
+        ) else CommonDataViewHolder.Empty(view)
     }
 
     override fun getItemCount(): Int = communication.getList().size

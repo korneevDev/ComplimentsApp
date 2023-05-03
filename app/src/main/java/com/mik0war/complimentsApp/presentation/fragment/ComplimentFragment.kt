@@ -1,6 +1,7 @@
-package com.mik0war.complimentsApp.presentation
+package com.mik0war.complimentsApp.presentation.fragment
 
 import com.mik0war.complimentsApp.R
+import com.mik0war.complimentsApp.presentation.ComplimentViewMode
 
 class ComplimentFragment : BaseFragment<ComplimentViewMode>() {
     override fun getViewModelClass(): Class<ComplimentViewMode> =

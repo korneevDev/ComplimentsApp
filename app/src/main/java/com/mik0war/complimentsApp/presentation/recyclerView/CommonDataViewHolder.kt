@@ -1,9 +1,12 @@
-package com.mik0war.complimentsApp.presentation
+package com.mik0war.complimentsApp.presentation.recyclerView
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.mik0war.complimentsApp.R
 import com.mik0war.complimentsApp.core.presentation.FavoriteItemClickListener
+import com.mik0war.complimentsApp.presentation.CommonUIModel
+import com.mik0war.complimentsApp.presentation.CustomImageButton
+import com.mik0war.complimentsApp.presentation.CustomTextView
 
 abstract class CommonDataViewHolder(view : View) : RecyclerView.ViewHolder(view){
     private val textView = itemView.findViewById<CustomTextView>(R.id.commonDataTextView)
