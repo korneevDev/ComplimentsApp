@@ -4,7 +4,7 @@ import com.mik0war.complimentsApp.core.data.cache.CachedCommonItem
 import com.mik0war.complimentsApp.core.data.cloud.CloudDataSource
 import com.mik0war.complimentsApp.core.data.cache.CacheDataSource
 import com.mik0war.complimentsApp.core.data.DataFetcher
-import com.mik0war.complimentsApp.core.data.Repository
+import com.mik0war.complimentsApp.core.data.repository.Repository
 import com.mik0war.complimentsApp.core.data.cache.PersistentDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

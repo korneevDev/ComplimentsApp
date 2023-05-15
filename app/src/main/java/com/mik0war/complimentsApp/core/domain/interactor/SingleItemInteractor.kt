@@ -1,4 +1,4 @@
-package com.mik0war.complimentsApp.core.domain
+package com.mik0war.complimentsApp.core.domain.interactor
 
 import com.mik0war.complimentsApp.domain.CommonItem
 

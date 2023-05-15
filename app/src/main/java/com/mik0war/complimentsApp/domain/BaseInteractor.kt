@@ -1,8 +1,8 @@
 package com.mik0war.complimentsApp.domain
 
 import com.mik0war.complimentsApp.core.data.CommonDataModelMapper
-import com.mik0war.complimentsApp.core.data.Repository
-import com.mik0war.complimentsApp.core.domain.CommonInteractor
+import com.mik0war.complimentsApp.core.data.repository.Repository
+import com.mik0war.complimentsApp.core.domain.interactor.CommonInteractor
 import com.mik0war.complimentsApp.core.domain.FailureHandler
 
 class BaseInteractor(

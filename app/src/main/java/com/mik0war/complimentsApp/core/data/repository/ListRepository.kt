@@ -1,4 +1,4 @@
-package com.mik0war.complimentsApp.core.data
+package com.mik0war.complimentsApp.core.data.repository
 
 import com.mik0war.complimentsApp.data.CommonDataModel
 

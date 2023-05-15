@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
-import com.mik0war.complimentsApp.core.domain.CommonInteractor
+import com.mik0war.complimentsApp.core.domain.interactor.CommonInteractor
 import com.mik0war.complimentsApp.core.presentation.CommonCommunication
 import com.mik0war.complimentsApp.core.presentation.viewmodel.CommonViewModel
 import com.mik0war.complimentsApp.core.presentation.ListGetter
